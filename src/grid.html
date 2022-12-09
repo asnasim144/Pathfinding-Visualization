@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+        }
+        .container{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .grid{
+            display: grid;
+            display: flex;
+            /* width: 95vw; */
+            min-width: 1000px;
+            max-width: 1600px;
+            /* grid-template-columns: auto auto auto; */
+            flex-wrap: wrap;
+            gap: 1px;
+        }
+        .div{
+            height: 10px;
+            width: 10px;
+            background-color: rgb(171, 192, 192);
+            display: inline-block;
+            border: 1px solid black;
+        }
+        .top{
+            height: 100px;
+        }
+
+    </style>
+    <script>
+        window.onload = function() {
+            var grid= document.getElementById('grid');
+            for(i=0; i<7000;i++){
+                var rect = document.getElementById('grid11111').getBoundingClientRect();
+                var height = rect.height + 30;
+                var vh=screen.height -200
+                console.log( height, vh)
+                if(height<vh){
+                    var div = document.createElement("div");
+                    div.classList.add("div");
+                    document.querySelector('.grid').appendChild(div);
+                }
+            }
+            //alert(vh)
+            
+		}
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="top">
+            <h1>dklfjgslkj</h1>
+        </div>
+        <div class="grid" id="grid" >
+            
+        </div>
+    </div>
+</body>
+</html>
