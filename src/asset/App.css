@@ -45,19 +45,24 @@ body{
 .color{
     background-color: aqua;
 } */
+.node img{
+    width: 15px;
+    margin: 4px 4px;
+}
 .node {
     width: 25px;
+    display: flex;
     height: 25px;
     outline: 1px solid rgb(175, 216, 248);
     display: inline-block;
 }
 
 .node-finish {
-    background-color: red;
+    /* background-color: red; */
 }
 
 .node-start {
-    background-color: green;
+    /* background-color: green; */
 }
 
 .node-visited {

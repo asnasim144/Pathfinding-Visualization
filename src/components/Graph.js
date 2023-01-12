@@ -1,17 +1,17 @@
 // import React, { useMemo } from "react";
 import Nodes from "./Nodes";
-import { useState, useEffect,  useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { dijkstra, getNodesInShortestPathOrder } from "./FindPath";
-
 
 export default function Graph() {
     const [grid, setGrid] = useState([]);
     const [setWall, setSetWall] = useState(false);
     const [startNodeChanging, setStartNodeChanging] = useState(false);
-    const [startNode, setStartNode] = useState({ row: 7, col:5});
-    const [endNode, setEndNode] = useState({ row: 7, col:44 });
+    const [endNodeChanging, setEndNodeChanging] = useState(false);
+    const [startNode, setStartNode] = useState({ row: 7, col: 5 });
+    const [endNode, setEndNode] = useState({ row: 7, col: 44 });
     const [mouseIsPressed, setMouseIsPressed] = useState(false);
-    
+
     const gridd = useMemo(() => {
         const gri = [];
         const createNode = (col, row) => {
@@ -35,49 +35,63 @@ export default function Graph() {
         }
         return gri;
     }, [endNode.col, endNode.row, startNode.col, startNode.row]);
-    useEffect(() => { 
+    useEffect(() => {
         setGrid(gridd);
     }, [gridd]);
     console.log("grid", grid);
 
     const isWallCreatable = () => {
-        // alert("slfj");
-        if(setWall) setSetWall(false);
-        setSetWall(true);
+        if (setWall) setSetWall(false);
+        else setSetWall(true);
+        // alert(setWall);
     };
-    
+
     const handleMouseDown = (row, col) => {
-        // if(!setWall) return;
-        const newGrid = getNewGridWithWallToggles(grid, row, col);
-        setGrid(newGrid);
         setMouseIsPressed(true);
-        if(row === startNode.row && col === startNode.col) {
-            alert("start Node")
+        if (row === startNode.row && col === startNode.col) {
+            // alert("start Node");
             setTimeout(() => {
-                setStartNodeChanging(true)
+                setStartNodeChanging(true);
             }, 60);
         }
-
-    };
-    const handleMouseEnter = (row, col) => {
-        // if(!setWall) return;
-        changeStartNode(row,col);
-        if (!mouseIsPressed) return;
+        if (row === endNode.row && col === endNode.col) {
+            // alert("start Node");
+            setTimeout(() => {
+                setEndNodeChanging(true);
+            }, 60);
+        }
+        if(!setWall) return;
         const newGrid = getNewGridWithWallToggles(grid, row, col);
         setGrid(newGrid);
-};
+    };
+    const handleMouseEnter = (row, col) => {
+        if (!mouseIsPressed) return;
+        changeStartNode(row, col);
+        changeEndNode(row, col);
+        if(!setWall) return;
+        const newGrid = getNewGridWithWallToggles(grid, row, col);
+        setGrid(newGrid);
+    };
 
     const handleMouseUp = () => {
         setTimeout(() => {
             setMouseIsPressed(false);
-            setStartNodeChanging(false)
+            setStartNodeChanging(false);
+            setEndNodeChanging(false);
         }, 60);
     };
-    const changeStartNode = (row,col) => {
-        if(!startNodeChanging)return;
-        const newGrid = getNewGridWithWallToggles(grid, row, col);
+    const changeStartNode = (row, col) => {
+        if (!startNodeChanging) return;
+        const newGrid = getNewGridWithChangeStartNodeToggles( row, col);
+        // const newGrid = getNewGridWithChangeStartNodeToggles(grid, row, col);
         setGrid(newGrid);
-    }
+    };
+    const changeEndNode = (row, col) => {
+        if (!endNodeChanging) return;
+        const newGrid = getNewGridWithChangeEndNodeToggles( row, col);
+        // const newGrid = getNewGridWithChangeStartNodeToggles(grid, row, col);
+        setGrid(newGrid);
+    };
 
     const getNewGridWithWallToggles = (grid, row, col) => {
         const newGrid = grid.slice();
@@ -89,13 +103,33 @@ export default function Graph() {
         newGrid[row][col] = newNode;
         return newGrid;
     };
-    const abc = (grid, row, col) => {
+    const getNewGridWithChangeStartNodeToggles = ( row, col) => {
         const newGrid = grid.slice();
         const node = newGrid[row][col];
         const newNode = {
             ...node,
             isStart: true,
         };
+        setStartNode(startNode => ({
+            ...startNode,
+            row: row,
+            col: col
+        }));
+        newGrid[row][col] = newNode;
+        return newGrid;
+    };
+    const getNewGridWithChangeEndNodeToggles = ( row, col) => {
+        const newGrid = grid.slice();
+        const node = newGrid[row][col];
+        const newNode = {
+            ...node,
+            isFinish: true,
+        };
+        setEndNode(endNode => ({
+            ...endNode,
+            row: row,
+            col: col
+        }));
         newGrid[row][col] = newNode;
         return newGrid;
     };
@@ -139,9 +173,9 @@ export default function Graph() {
 
     return (
         <div className="container">
-            <button onClick={() => visualizeDijkstra(startNode,endNode)}>
+            <button onClick={() => visualizeDijkstra(startNode, endNode)}>
                 Visualize Dijkstra's Algorithm
-            </button> 
+            </button>
             <button onClick={isWallCreatable}>Wall</button>
             <div className="grid">
                 <h1>Graph</h1>
@@ -149,14 +183,16 @@ export default function Graph() {
                     return (
                         <div key={rowIdx}>
                             {row.map((node, nodeIdx) => {
-                                const {
+                                const { isStart, isFinish, row, col, isWall } =
+                                    node;
+                                console.log(
+                                    "s",
                                     isStart,
+                                    "f",
                                     isFinish,
-                                    row,
-                                    col,
-                                    isWall,
-                                } = node;
-                                console.log("s",isStart,"f", isFinish, startNodeChanging ,mouseIsPressed);
+                                    startNodeChanging,
+                                    mouseIsPressed
+                                );
                                 // console.log(node);
                                 return (
                                     <Nodes
@@ -165,7 +201,8 @@ export default function Graph() {
                                         isFinish={isFinish}
                                         isWall={isWall}
                                         mouseIsPressed={mouseIsPressed}
-                                        startNodeChanging={startNodeChanging}
+                                        // startNodeChanging={startNodeChanging}
+                                        endNodeChanging={endNodeChanging}
                                         onMouseDown={(row, col) =>
                                             handleMouseDown(row, col)
                                         }

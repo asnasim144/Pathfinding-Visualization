@@ -1,5 +1,30 @@
 import React from "react";
+import Start from "./start.svg";
+import End from "./end.svg";
 
+
+const Finished=({sss})=>{
+    if(sss===true){
+        // alert(JSON.stringify(sss))
+        return(
+            // <HandleIcon  />
+            <img src={End} alt=" SVG" />
+
+        )
+
+    }
+}
+const Started=({sss})=>{
+    if(sss===true){
+        // alert(JSON.stringify(sss))
+        return(
+            // <HandleIcon  />
+            <img src={Start} alt=" SVG" />
+
+        )
+
+    }
+}
 export default function Nodes({
     col,
     isFinish,
@@ -10,6 +35,8 @@ export default function Nodes({
     onMouseUp,
     row,
 }) {
+    // const icon = isFinish ? End : isStart ? Start : false;
+    // alert(isFinish)
     const extraClassName = isFinish
         ? "node-finish"
         : isStart
@@ -18,6 +45,9 @@ export default function Nodes({
         ? "node-wall"
         : "";
     // const col= color? 'color':'';
+
+    // alert(isFinish)
+
     return (
         <div
             id={`node-${row}-${col}`}
@@ -25,6 +55,11 @@ export default function Nodes({
             onMouseDown={() => onMouseDown(row, col)}
             onMouseEnter={() => onMouseEnter(row, col)}
             onMouseUp={() => onMouseUp()}
-        ></div>
+        >
+            {/* <HandleIcon isStart={isStart} isFinish={isFinish} /> */}
+            {/* {dummy} */}
+            <Finished sss={isFinish} />
+            <Started sss={isStart} />
+        </div>
     );
 }
