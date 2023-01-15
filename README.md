@@ -1,3 +1,9 @@
+# Pathfinding visualization project
+### What is pathfinding?
+Pathfinding or pathing is the plotting, by a computer application, of the shortest route between two points.
+## What is this project?
+This project is based on React. In this project how a pathfinding algorithm work or how an algorithm finds the shortest path between two point is shown.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
