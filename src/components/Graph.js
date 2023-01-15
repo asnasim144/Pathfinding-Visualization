@@ -2,6 +2,7 @@
 import Nodes from "./Nodes";
 import { useState, useEffect, useMemo } from "react";
 import { dijkstra, getNodesInShortestPathOrder } from "./FindPath";
+import Find from "./SimplePathFinding"
 
 export default function Graph() {
     const [grid, setGrid] = useState([]);
@@ -38,7 +39,7 @@ export default function Graph() {
     useEffect(() => {
         setGrid(gridd);
     }, [gridd]);
-    console.log("grid", grid);
+    // console.log("grid", grid);
 
     const isWallCreatable = () => {
         if (setWall) setSetWall(false);
@@ -173,6 +174,7 @@ export default function Graph() {
 
     return (
         <div className="container">
+            <Find />
             <button onClick={() => visualizeDijkstra(startNode, endNode)}>
                 Visualize Dijkstra's Algorithm
             </button>
@@ -185,14 +187,14 @@ export default function Graph() {
                             {row.map((node, nodeIdx) => {
                                 const { isStart, isFinish, row, col, isWall } =
                                     node;
-                                console.log(
-                                    "s",
-                                    isStart,
-                                    "f",
-                                    isFinish,
-                                    startNodeChanging,
-                                    mouseIsPressed
-                                );
+                                // console.log(
+                                //     "s",
+                                //     isStart,
+                                //     "f",
+                                //     isFinish,
+                                //     startNodeChanging,
+                                //     mouseIsPressed
+                                // );
                                 // console.log(node);
                                 return (
                                     <Nodes
