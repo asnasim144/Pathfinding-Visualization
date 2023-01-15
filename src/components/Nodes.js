@@ -2,29 +2,24 @@ import React from "react";
 import Start from "./start.svg";
 import End from "./end.svg";
 
-
-const Finished=({sss})=>{
-    if(sss===true){
+const Finished = ({ sss }) => {
+    if (sss === true) {
         // alert(JSON.stringify(sss))
-        return(
+        return (
             // <HandleIcon  />
             <img src={End} alt=" SVG" />
-
-        )
-
+        );
     }
-}
-const Started=({sss})=>{
-    if(sss===true){
+};
+const Started = ({ sss }) => {
+    if (sss === true) {
         // alert(JSON.stringify(sss))
-        return(
+        return (
             // <HandleIcon  />
             <img src={Start} alt=" SVG" />
-
-        )
-
+        );
     }
-}
+};
 export default function Nodes({
     col,
     isFinish,

@@ -45,7 +45,34 @@ body{
 .color{
     background-color: aqua;
 } */
-.node img{
+body{
+    margin: 0;
+}
+.container {
+    display: flex;
+    /* justify-content: center; */
+    flex-direction: column;
+    align-items: center;
+}
+.nav{
+    width: 100vw;
+    background-color: aqua;
+    height: 70px;
+}
+.info {
+    text-align: center;
+}
+.info img{
+    width: 15px;
+    margin-top: 10px;
+}
+.info li{
+    list-style: none;
+}
+.grid{
+    margin-top: 20px;
+}
+.node img {
     width: 15px;
     margin: 4px 4px;
 }
@@ -57,13 +84,13 @@ body{
     display: inline-block;
 }
 
-.node-finish {
-    /* background-color: red; */
+/* .node-finish {
+    background-color: red;
 }
 
 .node-start {
-    /* background-color: green; */
-}
+    background-color: green;
+} */
 
 .node-visited {
     animation-name: visitedAnimation;

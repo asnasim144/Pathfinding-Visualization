@@ -2,7 +2,9 @@
 import Nodes from "./Nodes";
 import { useState, useEffect, useMemo } from "react";
 import { dijkstra, getNodesInShortestPathOrder } from "./FindPath";
-import Find from "./SimplePathFinding"
+import Find from "./SimplePathFinding";
+import Buttons from "./Buttons";
+import Info from "./Info";
 
 export default function Graph() {
     const [grid, setGrid] = useState([]);
@@ -13,8 +15,8 @@ export default function Graph() {
     const [endNode, setEndNode] = useState({ row: 7, col: 44 });
     const [mouseIsPressed, setMouseIsPressed] = useState(false);
 
-    const gridd = useMemo(() => {
-        const gri = [];
+    const gridMemo = useMemo(() => {
+        const gridRow = [];
         const createNode = (col, row) => {
             return {
                 row,
@@ -32,13 +34,13 @@ export default function Graph() {
             for (let col = 0; col < 50; col++) {
                 currentRow.push(createNode(col, row));
             }
-            gri.push(currentRow);
+            gridRow.push(currentRow);
         }
-        return gri;
+        return gridRow;
     }, [endNode.col, endNode.row, startNode.col, startNode.row]);
     useEffect(() => {
-        setGrid(gridd);
-    }, [gridd]);
+        setGrid(gridMemo);
+    }, [gridMemo]);
     // console.log("grid", grid);
 
     const isWallCreatable = () => {
@@ -61,7 +63,7 @@ export default function Graph() {
                 setEndNodeChanging(true);
             }, 60);
         }
-        if(!setWall) return;
+        if (!setWall) return;
         const newGrid = getNewGridWithWallToggles(grid, row, col);
         setGrid(newGrid);
     };
@@ -69,7 +71,7 @@ export default function Graph() {
         if (!mouseIsPressed) return;
         changeStartNode(row, col);
         changeEndNode(row, col);
-        if(!setWall) return;
+        if (!setWall) return;
         const newGrid = getNewGridWithWallToggles(grid, row, col);
         setGrid(newGrid);
     };
@@ -83,13 +85,13 @@ export default function Graph() {
     };
     const changeStartNode = (row, col) => {
         if (!startNodeChanging) return;
-        const newGrid = getNewGridWithChangeStartNodeToggles( row, col);
+        const newGrid = getNewGridWithChangeStartNodeToggles(row, col);
         // const newGrid = getNewGridWithChangeStartNodeToggles(grid, row, col);
         setGrid(newGrid);
     };
     const changeEndNode = (row, col) => {
         if (!endNodeChanging) return;
-        const newGrid = getNewGridWithChangeEndNodeToggles( row, col);
+        const newGrid = getNewGridWithChangeEndNodeToggles(row, col);
         // const newGrid = getNewGridWithChangeStartNodeToggles(grid, row, col);
         setGrid(newGrid);
     };
@@ -104,32 +106,34 @@ export default function Graph() {
         newGrid[row][col] = newNode;
         return newGrid;
     };
-    const getNewGridWithChangeStartNodeToggles = ( row, col) => {
+    const getNewGridWithChangeStartNodeToggles = (row, col) => {
         const newGrid = grid.slice();
         const node = newGrid[row][col];
+        changeVisualizeDijkstra(row,col, endNode);
         const newNode = {
             ...node,
             isStart: true,
         };
-        setStartNode(startNode => ({
+        setStartNode((startNode) => ({
             ...startNode,
             row: row,
-            col: col
+            col: col,
         }));
         newGrid[row][col] = newNode;
         return newGrid;
     };
-    const getNewGridWithChangeEndNodeToggles = ( row, col) => {
+    const getNewGridWithChangeEndNodeToggles = (row, col) => {
         const newGrid = grid.slice();
         const node = newGrid[row][col];
+        // changeVisualizeDijkstra(row,col, endNode);
         const newNode = {
             ...node,
             isFinish: true,
         };
-        setEndNode(endNode => ({
+        setEndNode((endNode) => ({
             ...endNode,
             row: row,
-            col: col
+            col: col,
         }));
         newGrid[row][col] = newNode;
         return newGrid;
@@ -140,7 +144,7 @@ export default function Graph() {
             if (i === visitedNodesInOrder.length) {
                 setTimeout(() => {
                     animateShortestPath(nodesInShortestPathOrder);
-                }, 10 * i);
+                }, 1 * i);
                 return;
             }
             setTimeout(() => {
@@ -148,7 +152,7 @@ export default function Graph() {
                 document.getElementById(
                     `node-${node.row}-${node.col}`
                 ).className = "node node-visited";
-            }, 10 * i);
+            }, 1 * i);
         }
     };
 
@@ -159,10 +163,45 @@ export default function Graph() {
                 document.getElementById(
                     `node-${node.row}-${node.col}`
                 ).className = "node node-shortest-path";
-            }, 50 * i);
+            }, 5 * i);
+        }
+    };
+    const changeDijkstra = (visitedNodesInOrder, nodesInShortestPathOrder) => {
+        for (let i = 0; i <= visitedNodesInOrder.length; i++) {
+            if (i === visitedNodesInOrder.length) {
+                // setTimeout(() => {
+                    changeShortestPath(nodesInShortestPathOrder);
+                // }, 10 * i);
+                return;
+            }
+            // setTimeout(() => {
+                const node = visitedNodesInOrder[i];
+                document.getElementById(
+                    `node-${node.row}-${node.col}`
+                ).className = "node node-visited";
+            // }, 10 * i);
         }
     };
 
+    const changeShortestPath = (nodesInShortestPathOrder) => {
+        for (let i = 0; i < nodesInShortestPathOrder.length; i++) {
+            // setTimeout(() => {
+                const node = nodesInShortestPathOrder[i];
+                document.getElementById(
+                    `node-${node.row}-${node.col}`
+                ).className = "node node-shortest-path";
+            // }, 50 * i);
+        }
+    };
+
+    const changeVisualizeDijkstra = (row,col, end) => {
+        const startNode = grid[row][col];
+        const finishNode = grid[end.row][end.col];
+        const visitedNodesInOrder = dijkstra(grid, startNode, finishNode);
+        const nodesInShortestPathOrder =
+            getNodesInShortestPathOrder(finishNode);
+        changeDijkstra(visitedNodesInOrder, nodesInShortestPathOrder);
+    };
     const visualizeDijkstra = (start, end) => {
         const startNode = grid[start.row][start.col];
         const finishNode = grid[end.row][end.col];
@@ -171,55 +210,79 @@ export default function Graph() {
             getNodesInShortestPathOrder(finishNode);
         animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder);
     };
+    const resetGrid =()=>{
+        // const newGrid = gridd.slice();
+        // console.log("🚀 ~ file: Graph.js:215 ~ resetGrid ~ newGrid", newGrid)
+        setGrid(gridMemo);
+    }
 
     return (
         <div className="container">
             <Find />
-            <button onClick={() => visualizeDijkstra(startNode, endNode)}>
-                Visualize Dijkstra's Algorithm
-            </button>
-            <button onClick={isWallCreatable}>Wall</button>
-            <div className="grid">
-                <h1>Graph</h1>
-                {grid.map((row, rowIdx) => {
-                    return (
-                        <div key={rowIdx}>
-                            {row.map((node, nodeIdx) => {
-                                const { isStart, isFinish, row, col, isWall } =
-                                    node;
-                                // console.log(
-                                //     "s",
-                                //     isStart,
-                                //     "f",
-                                //     isFinish,
-                                //     startNodeChanging,
-                                //     mouseIsPressed
-                                // );
-                                // console.log(node);
-                                return (
-                                    <Nodes
-                                        key={nodeIdx}
-                                        isStart={isStart}
-                                        isFinish={isFinish}
-                                        isWall={isWall}
-                                        mouseIsPressed={mouseIsPressed}
-                                        // startNodeChanging={startNodeChanging}
-                                        endNodeChanging={endNodeChanging}
-                                        onMouseDown={(row, col) =>
-                                            handleMouseDown(row, col)
-                                        }
-                                        onMouseEnter={(row, col) =>
-                                            handleMouseEnter(row, col)
-                                        }
-                                        onMouseUp={() => handleMouseUp()}
-                                        col={col}
-                                        row={row}
-                                    ></Nodes>
-                                );
-                            })}
-                        </div>
-                    );
-                })}
+            <div className="nav">
+                {/* <button onClick={() => visualizeDijkstra(startNode, endNode)}>
+                    Visualize Dijkstra's Algorithm
+                </button> */}
+                <Buttons
+                    visualizeDijkstra={(startNode, endNode) =>visualizeDijkstra(startNode, endNode)}
+                    startNode={startNode}
+                    endNode={endNode}
+                >
+                    Visualize Dijkstra's Algorithm
+                </Buttons>
+                <button onClick={isWallCreatable}>Wall</button>
+                <button onClick={resetGrid}>Reset</button>
+            </div>
+            <div className="info">
+                <Info></Info>
+            </div>
+            <div>
+                <div className="grid">
+                    {grid.map((row, rowIdx) => {
+                        return (
+                            <div key={rowIdx}>
+                                {row.map((node, nodeIdx) => {
+                                    const {
+                                        isStart,
+                                        isFinish,
+                                        row,
+                                        col,
+                                        isWall,
+                                    } = node;
+                                    // console.log(
+                                    //     "s",
+                                    //     isStart,
+                                    //     "f",
+                                    //     isFinish,
+                                    //     startNodeChanging,
+                                    //     mouseIsPressed
+                                    // );
+                                    // console.log(node);
+                                    return (
+                                        <Nodes
+                                            key={nodeIdx}
+                                            isStart={isStart}
+                                            isFinish={isFinish}
+                                            isWall={isWall}
+                                            mouseIsPressed={mouseIsPressed}
+                                            // startNodeChanging={startNodeChanging}
+                                            endNodeChanging={endNodeChanging}
+                                            onMouseDown={(row, col) =>
+                                                handleMouseDown(row, col)
+                                            }
+                                            onMouseEnter={(row, col) =>
+                                                handleMouseEnter(row, col)
+                                            }
+                                            onMouseUp={() => handleMouseUp()}
+                                            col={col}
+                                            row={row}
+                                        ></Nodes>
+                                    );
+                                })}
+                            </div>
+                        );
+                    })}
+                </div>
             </div>
         </div>
     );
