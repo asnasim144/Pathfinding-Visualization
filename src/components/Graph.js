@@ -3,8 +3,7 @@ import Nodes from "./Nodes";
 import { useState, useEffect, useMemo } from "react";
 import { dijkstra, getNodesInShortestPathOrder } from "./FindPath";
 import Find from "./SimplePathFinding";
-import Buttons from "./Buttons";
-import Info from "./Info";
+import Nav from "./Nav";
 
 export default function Graph() {
     const [grid, setGrid] = useState([]);
@@ -91,8 +90,7 @@ export default function Graph() {
     };
     const changeEndNode = (row, col) => {
         if (!endNodeChanging) return;
-        const newGrid = getNewGridWithChangeEndNodeToggles(row, col);
-        // const newGrid = getNewGridWithChangeStartNodeToggles(grid, row, col);
+        const newGrid = getNewGridWithChangeEndNodeToggles(row, col); 
         setGrid(newGrid);
     };
 
@@ -109,7 +107,7 @@ export default function Graph() {
     const getNewGridWithChangeStartNodeToggles = (row, col) => {
         const newGrid = grid.slice();
         const node = newGrid[row][col];
-        changeVisualizeDijkstra(row,col, endNode);
+        changeVisualizeDijkstra(row, col, endNode);
         const newNode = {
             ...node,
             isStart: true,
@@ -170,15 +168,14 @@ export default function Graph() {
         for (let i = 0; i <= visitedNodesInOrder.length; i++) {
             if (i === visitedNodesInOrder.length) {
                 // setTimeout(() => {
-                    changeShortestPath(nodesInShortestPathOrder);
+                changeShortestPath(nodesInShortestPathOrder);
                 // }, 10 * i);
                 return;
             }
             // setTimeout(() => {
-                const node = visitedNodesInOrder[i];
-                document.getElementById(
-                    `node-${node.row}-${node.col}`
-                ).className = "node node-visited";
+            const node = visitedNodesInOrder[i];
+            document.getElementById(`node-${node.row}-${node.col}`).className =
+                "node node-visited";
             // }, 10 * i);
         }
     };
@@ -186,15 +183,15 @@ export default function Graph() {
     const changeShortestPath = (nodesInShortestPathOrder) => {
         for (let i = 0; i < nodesInShortestPathOrder.length; i++) {
             // setTimeout(() => {
-                const node = nodesInShortestPathOrder[i];
-                document.getElementById(
-                    `node-${node.row}-${node.col}`
-                ).className = "node node-shortest-path";
+            const node = nodesInShortestPathOrder[i];
+            document.getElementById(`node-${node.row}-${node.col}`).className =
+                "node node-shortest-path";
             // }, 50 * i);
         }
     };
 
-    const changeVisualizeDijkstra = (row,col, end) => {
+    const changeVisualizeDijkstra = (row, col, end) => {
+        resetGrid();
         const startNode = grid[row][col];
         const finishNode = grid[end.row][end.col];
         const visitedNodesInOrder = dijkstra(grid, startNode, finishNode);
@@ -210,38 +207,40 @@ export default function Graph() {
             getNodesInShortestPathOrder(finishNode);
         animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder);
     };
-    const resetGrid =()=>{
+    const resetGrid = () => {
         // const newGrid = gridd.slice();
-        // console.log("🚀 ~ file: Graph.js:215 ~ resetGrid ~ newGrid", newGrid)
-        setGrid(gridMemo);
-    }
+        console.log("log");
+        for (let row = 0; row < 15; row++) {
+            for (let col = 0; col < 50; col++) {
+                document
+                    .getElementById(`node-${row}-${col}`)
+                    .classList.remove("node-visited");
+                document
+                    .getElementById(`node-${row}-${col}`)
+                    .classList.remove("node-shortest-path");
+            }
+        }
+        // setGrid(gridMemo);
+    };
 
     return (
         <div className="container">
             <Find />
-            <div className="nav">
-                {/* <button onClick={() => visualizeDijkstra(startNode, endNode)}>
-                    Visualize Dijkstra's Algorithm
-                </button> */}
-                <Buttons
-                    visualizeDijkstra={(startNode, endNode) =>visualizeDijkstra(startNode, endNode)}
-                    startNode={startNode}
-                    endNode={endNode}
-                >
-                    Visualize Dijkstra's Algorithm
-                </Buttons>
-                <button onClick={isWallCreatable}>Wall</button>
-                <button onClick={resetGrid}>Reset</button>
-            </div>
-            <div className="info">
-                <Info></Info>
-            </div>
+            <Nav
+                visualizeDijkstra={(startNode, endNode) =>
+                    visualizeDijkstra(startNode, endNode)
+                }
+                startNode={startNode}
+                endNode={endNode}
+                isWallCreatable={isWallCreatable}
+                resetGrid={resetGrid}
+            ></Nav>
             <div>
                 <div className="grid">
-                    {grid.map((row, rowIdx) => {
+                    {grid.map((row, rowIndex) => {
                         return (
-                            <div key={rowIdx}>
-                                {row.map((node, nodeIdx) => {
+                            <div key={rowIndex}>
+                                {row.map((node, nodeIndex) => {
                                     const {
                                         isStart,
                                         isFinish,
@@ -260,7 +259,7 @@ export default function Graph() {
                                     // console.log(node);
                                     return (
                                         <Nodes
-                                            key={nodeIdx}
+                                            key={nodeIndex}
                                             isStart={isStart}
                                             isFinish={isFinish}
                                             isWall={isWall}
