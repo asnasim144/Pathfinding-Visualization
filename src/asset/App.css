@@ -1,0 +1,214 @@
+/* 
+body{
+    margin: 0;
+    padding: 0;
+}
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.grid{
+    display: flex;
+    display: grid;
+    margin-left: 100px;
+    width: 95vw;
+    min-width: 1000px;
+    max-width: 1600px;
+    grid-template-columns: auto auto auto;
+    flex-wrap: wrap;
+}
+.div{
+    height: 10px;
+    width: 10px;
+    background-color: rgb(171, 192, 192);
+    display: inline-block;
+    border: 1px solid black;
+}
+.top{
+    height: 100px;
+}
+.node{
+    width: 25px;
+    height: 25px;
+    outline: 1px solid gray;
+    display: inline-block;
+}
+
+.endNode{
+    background-color: rgb(245, 77, 77);
+}
+.startNode{
+    background-color: greenyellow;
+}
+.color{
+    background-color: aqua;
+} */
+body {
+    margin: 0;
+}
+.container {
+    display: flex;
+    /* justify-content: center; */
+    flex-direction: column;
+    align-items: center;
+}
+.nav {
+    width: 100vw;
+    background-color: #34495e;
+    display: flex;
+    /* height: 70px; */
+}
+.nav h2 {
+    color: white;
+}
+.nav button {
+    all: unset;
+    cursor: pointer;
+}
+.nav .btn {
+    margin-top: 23px;
+}
+.nav .buttons {
+    margin-left: 2rem;
+    display: flex;
+    /* justify-content: space-between; */
+    gap: 20px;
+    color: white;
+}
+.info {
+    text-align: center;
+}
+.info img {
+    width: 15px;
+    /* margin-top: 10px; */
+    margin-right: 10px;
+}
+.info li {
+    list-style: none;
+    display: flex;
+    /* margin-right: 20px; */
+}
+.info ul {
+    display: flex;
+    /* width: 500px; */
+    width: 70%;
+    justify-content: space-between;
+}
+.info .visited {
+    background-color: aqua;
+    height: 20px;
+    width: 20px;
+    margin-top: -2px;
+    margin-right: 10px;
+}
+.info .wall {
+    background-color: #032547;
+    height: 20px;
+    width: 20px;
+    margin-top: -2px;
+    margin-right: 10px;
+}
+.info .unvisited {
+    background-color: white;
+    height: 20px;
+    width: 20px;
+    border: 1px solid rgb(175, 216, 248);
+    margin-top: -2px;
+    margin-right: 10px;
+}
+.info li:first-child {
+    /* margin-top: -10px; */
+}
+.grid {
+    margin-top: 20px;
+}
+.node img {
+    width: 15px;
+    margin: 4px 4px;
+}
+.node {
+    width: 25px;
+    display: flex;
+    height: 25px;
+    outline: 1px solid rgb(175, 216, 248);
+    display: inline-block;
+}
+
+/* .node-finish {
+    background-color: red;
+}
+
+.node-start {
+    background-color: green;
+} */
+
+.node-visited {
+    animation-name: visitedAnimation;
+    animation-duration: 1.5s;
+    animation-timing-function: ease-out;
+    animation-delay: 0;
+    animation-direction: alternate;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+}
+
+@keyframes visitedAnimation {
+    0% {
+        transform: scale(0.3);
+        background-color: rgba(0, 0, 66, 0.75);
+        border-radius: 100%;
+    }
+
+    50% {
+        background-color: rgba(17, 104, 217, 0.75);
+    }
+
+    75% {
+        transform: scale(1.2);
+        background-color: rgba(0, 217, 159, 0.75);
+    }
+
+    100% {
+        transform: scale(1);
+        background-color: rgba(0, 190, 218, 0.75);
+    }
+}
+
+.node-wall {
+    background-color: #032547;
+}
+
+.node-shortest-path {
+    animation-name: shortestPath;
+    animation-duration: 1.5s;
+    animation-timing-function: ease-out;
+    animation-delay: 0;
+    animation-direction: alternate;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    animation-play-state: running;
+}
+
+@keyframes shortestPath {
+    0% {
+        transform: scale(0.6);
+        background-color: rgb(255, 254, 106);
+    }
+
+    50% {
+        transform: scale(1.2);
+        background-color: rgb(255, 254, 106);
+    }
+
+    100% {
+        transform: scale(1);
+        background-color: rgb(255, 254, 106);
+    }
+}
+
+.grid-cell.active {
+    background-color: red;
+}
