@@ -18,7 +18,7 @@ export default function Info() {
             age: 22,
         },
     ];
-    console.log(persons.reduce((total,person) => total+ person.age,0))
+    // console.log(persons.reduce((total,person) => total+ person.age,0))
     return (
         <div>
             <ul>

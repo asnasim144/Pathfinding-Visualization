@@ -59,7 +59,7 @@ export function getNodesInShortestPathOrder(finishNode) {
     const nodesInShortestPathOrder = [];
     let currentNode = finishNode;
     while (currentNode !== null) {
-        console.log("🚀 ~ file: dijktra.js:59 ~ getNodesInShortestPathOrder ~ finishNode", finishNode)
+        // console.log("🚀 ~ file: dijktra.js:59 ~ getNodesInShortestPathOrder ~ finishNode", finishNode)
         nodesInShortestPathOrder.unshift(currentNode);
         currentNode = currentNode.previousNode;
     }

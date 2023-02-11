@@ -1,6 +1,6 @@
 // import DummyButton from "./components/DummyButton";
-import Graph from "./components/Graph";
-// import Graph from "./components/GraphClass"
+// import Graph from "./components/Graph";
+import Graph from "./components/GraphClass"
 import "./asset/App.css";
 
 

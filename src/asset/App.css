@@ -62,17 +62,31 @@ body {
 }
 .nav h2 {
     color: white;
+    margin-left: 15px;
 }
-.nav button {
+.nav .clear {
     all: unset;
     cursor: pointer;
 }
-.nav .btn {
-    margin-top: 23px;
+.nav .btns {
+    margin-top: 10px;
+}
+.nav .visualize {
+    display: flex;
+}
+.nav #algo {
+    height: 20px; 
+    margin-top: 11px;
+}
+
+.nav .algo-btn {
+    margin-left: 15px;
+    /* background: red; */
 }
 .nav .buttons {
     margin-left: 2rem;
-    display: flex;
+    display: flex; 
+    align-items: center;
     /* justify-content: space-between; */
     gap: 20px;
     color: white;
@@ -211,4 +225,138 @@ body {
 
 .grid-cell.active {
     background-color: red;
+} 
+
+/* .visualizeBtn{
+    background-color: red;
+} */
+
+.visualizeBtn {
+    margin-top: -20px;
+    border: 3px solid red;
+    background-color: #FFFFFF;
+    border: 1px solid #222222;
+    border-radius: 8px;
+    box-sizing: border-box;
+    color: #222222;
+    cursor: pointer;
+    display: inline-block;
+    font-family: Circular,-apple-system,BlinkMacSystemFont,Roboto,"Helvetica Neue",sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 20px;
+    margin: 0;
+    outline: none;
+    padding: 10px 23px;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    touch-action: manipulation;
+    transition: box-shadow .2s,-ms-transform .1s,-webkit-transform .1s,transform .1s;
+    user-select: none;
+    -webkit-user-select: none;
+    width: auto;
+}
+
+.visualizeBtn:focus-visible {
+    box-shadow: #222222 0 0 0 2px, rgba(204, 12, 12, 0.8) 0 0 0 4px;
+    transition: box-shadow .2s;
+}
+.visualizeBtn:hover{
+    background-color: #24dffcbf;
+}
+
+.visualizeBtn:active {
+    background-color: #FF4742;
+    border-color: #000000;
+    transform: scale(.96);
+}
+
+.visualizeBtn:disabled {
+    border-color: #DDDDDD;
+    color: #DDDDDD;
+    cursor: not-allowed;
+    opacity: 1;
+}  
+
+
+.knobs,
+.layer {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.button {
+    position: relative; 
+    width: 74px;
+    height: 36px; 
+    overflow: hidden;
+}
+
+.button.r,
+.button.r .layer {
+    border-radius: 100px;
+}
+
+.button.b2 {
+    border-radius: 2px;
+}
+
+.checkbox {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 3;
+}
+
+.knobs {
+    z-index: 2;
+}
+
+.layer {
+    width: 100%;
+    background-color: #ebf7fc;
+    transition: 0.3s ease all;
+    z-index: 1;
+}
+
+#wallBtn .knobs:before {
+    content: "OFF";
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 20px;
+    height: 10px;
+    color: #fff;
+    font-size: 10px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 1;
+    padding: 9px 4px;
+    background-color: #f44336; 
+    border-radius: 50%;
+    transition: 0.3s cubic-bezier(0.18, 0.89, 0.35, 1.15) all;
+}
+
+#wallBtn .checkbox:checked + .knobs:before {
+    content: "ON";
+    left: 42px;
+    background-color: #03a9f4; 
+}
+
+#wallBtn .checkbox:checked ~ .layer {
+    background-color: #c6f1ff;
+}
+
+#wallBtn .knobs,
+#wallBtn .knobs:before,
+#wallBtn .layer {
+    transition: 0.3s ease all;
 }

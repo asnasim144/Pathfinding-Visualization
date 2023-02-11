@@ -2,6 +2,7 @@
 import Nodes from "./Nodes";
 import { useState, useEffect, useMemo } from "react";
 import { dijkstra, getNodesInShortestPathOrder } from "./FindPath";
+import { BFS, getNodesInShortestPath } from "./bfsAlgo";
 import Find from "./SimplePathFinding";
 import Nav from "./Nav";
 
@@ -142,7 +143,7 @@ export default function Graph() {
             if (i === visitedNodesInOrder.length) {
                 setTimeout(() => {
                     animateShortestPath(nodesInShortestPathOrder);
-                }, 1 * i);
+                }, 10 * i);
                 return;
             }
             setTimeout(() => {
@@ -150,7 +151,7 @@ export default function Graph() {
                 document.getElementById(
                     `node-${node.row}-${node.col}`
                 ).className = "node node-visited";
-            }, 1 * i);
+            }, 10 * i);
         }
     };
 
@@ -161,7 +162,7 @@ export default function Graph() {
                 document.getElementById(
                     `node-${node.row}-${node.col}`
                 ).className = "node node-shortest-path";
-            }, 5 * i);
+            }, 50 * i);
         }
     };
     const changeDijkstra = (visitedNodesInOrder, nodesInShortestPathOrder) => {
@@ -200,6 +201,7 @@ export default function Graph() {
         changeDijkstra(visitedNodesInOrder, nodesInShortestPathOrder);
     };
     const visualizeDijkstra = (start, end) => {
+        resetGrid();
         const startNode = grid[start.row][start.col];
         const finishNode = grid[end.row][end.col];
         const visitedNodesInOrder = dijkstra(grid, startNode, finishNode);
@@ -209,9 +211,13 @@ export default function Graph() {
     };
     const resetGrid = () => {
         // const newGrid = gridd.slice();
-        console.log("log");
+        // console.log("log");
         for (let row = 0; row < 15; row++) {
             for (let col = 0; col < 50; col++) {
+                const node = grid[row][col];
+                node.distance= Infinity
+                node.isVisited= false 
+                node.previousNode= null
                 document
                     .getElementById(`node-${row}-${col}`)
                     .classList.remove("node-visited");
@@ -222,10 +228,12 @@ export default function Graph() {
         }
         // setGrid(gridMemo);
     };
+    // console.log("lsfdj")
+    
 
     return (
         <div className="container">
-            <Find />
+            {/* <Find /> */}
             <Nav
                 visualizeDijkstra={(startNode, endNode) =>
                     visualizeDijkstra(startNode, endNode)
@@ -235,6 +243,9 @@ export default function Graph() {
                 isWallCreatable={isWallCreatable}
                 resetGrid={resetGrid}
             ></Nav>
+            <button onClick={() => visualizeBFS(grid,startNode, endNode)}>
+                    Visualize BFS Algorithm
+                </button>
             <div>
                 <div className="grid">
                     {grid.map((row, rowIndex) => {
@@ -285,4 +296,33 @@ export default function Graph() {
             </div>
         </div>
     );
-}
+    function visualizeBFS(grid,startNode, endNode){
+        resetGrid();
+        const visitedNodes= BFS(grid,startNode, endNode)
+        // console.log("vsdf")
+        // console.log(visitedNodes.length)
+        // console.log(visitedNodes)
+        let i=0
+        visitedNodes.map((item) => { 
+            // console.log(item)
+            setTimeout(() => {
+                document.getElementById(`node-${item.row}-${item.col}`).className = "node node-visited";
+                
+            }, i*10);
+            i++
+        })
+        const nodesInShortestpath = getNodesInShortestPath(grid[endNode.row][endNode.col], grid[startNode.row][startNode.col])
+        console.log("🚀 ~ file: Graph.js:315 ~ visualizeBFS ~ nodesInShortestpath", nodesInShortestpath)
+        nodesInShortestpath.map((item) => { 
+            // console.log(item)
+            setTimeout(() => {
+                document.getElementById(`node-${item.row}-${item.col}`).className = "node node-shortest-path";
+                
+            }, i*10);
+            i++
+        });
+        // console.log(visitedNodes[[]])
+        // for(let i=0; i< visitedNodes.length; i++){
+        // }
+    }
+} 
