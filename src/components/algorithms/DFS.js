@@ -76,10 +76,10 @@ export function DFS(grid, startNode, finishNode) {
 function getUnvisitedNeighbor(node, grid){
     const neighbors = []
     const {col, row }= node 
-    if(row > 0 ) neighbors.push(grid[row-1][col])
     if(row< grid.length-1) neighbors.push(grid[row+1][col])
-    if(col> 0) neighbors.push(grid[row][col-1])
+    if(row > 0 ) neighbors.push(grid[row-1][col])
     if(col <grid[0].length) neighbors.push(grid[row][col+1])
+    if(col> 0) neighbors.push(grid[row][col-1])
     const unvisitedNeighbors =neighbors.filter((neighbors) => {
         return !neighbors.isVisited 
     })
@@ -91,10 +91,10 @@ function getUnvisitedNeighbor(node, grid){
 function getUnvisitedNeighbors(node, grid){
     const neighbors = []
     const {col, row }= node 
-    if(row > 0 ) neighbors.push(grid[row-1][col])
     if(row< grid.length-1) neighbors.push(grid[row+1][col])
     if(col> 0) neighbors.push(grid[row][col-1])
     if(col <grid[0].length) neighbors.push(grid[row][col+1])
+    if(row > 0 ) neighbors.push(grid[row-1][col])
     return neighbors.filter((neighbors) => !neighbors.isVisited)
 }
 

@@ -25,6 +25,9 @@ export default function SelectAlgo() {
                     <option name='bfs' value='bfs'>
                         BFS
                     </option>
+                    <option name='dfs' value='dfs'>
+                        DFS
+                    </option>
                 </select> 
                 <div className='algo-btn'>
                     {
