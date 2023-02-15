@@ -1,6 +1,7 @@
 // import React, { useMemo } from "react";
 import { createContext, useEffect, useMemo, useState } from "react";
 import Nodes from "./Nodes";
+import { getGridSize } from "./gridSize";
 // import { dijkstra, getNodesInShortestPathOrder } from "./FindPath";
 // import { BFS, getNodesInShortestPath } from "./bfsAlgo";
 // import Find from "./SimplePathFinding";
@@ -10,12 +11,15 @@ import Nav from "./Nav";
 export const AlgorithmContext= createContext();
 
 export default function Graph() {
+    // const { row, col, } = getGridSize()
+    const gridSize = getGridSize()
+    console.log("🚀 ~ file: GraphClass.js:15 ~ Graph ~ gridSize", gridSize.row)
     const [grid, setGrid] = useState([]);
     const [setWall, setSetWall] = useState(false);
     const [startNodeChanging, setStartNodeChanging] = useState(false);
     const [endNodeChanging, setEndNodeChanging] = useState(false);
-    const [startNode, setStartNode] = useState({ row: 7, col: 5 });
-    const [endNode, setEndNode] = useState({ row: 7, col: 44 });
+    const [startNode, setStartNode] = useState({ row: gridSize.startNode.row, col: gridSize.startNode.col });
+    const [endNode, setEndNode] = useState({ row: gridSize.endNode.row, col: gridSize.endNode.col });
     const [mouseIsPressed, setMouseIsPressed] = useState(false);
 
     const gridMemo = useMemo(() => {
@@ -32,15 +36,15 @@ export default function Graph() {
                 previousNode: null,
             };
         };
-        for (let row = 0; row < 15; row++) {
+        for (let row = 0; row < gridSize.row; row++) {
             const currentRow = [];
-            for (let col = 0; col < 50; col++) {
+            for (let col = 0; col < gridSize.col; col++) {
                 currentRow.push(createNode(col, row));
             }
             gridRow.push(currentRow);
         }
         return gridRow;
-    }, [endNode.col, endNode.row, startNode.col, startNode.row]);
+    }, [endNode.col, endNode.row, gridSize.col, gridSize.row, startNode.col, startNode.row]);
     useEffect(() => {
         setGrid(gridMemo);
     }, [gridMemo]);
@@ -153,15 +157,6 @@ export default function Graph() {
         }
         // setGrid(gridMemo);
     };
-    // const handleAlgorithm = (algorithm) =>{
-    //     if(algorithm===''){
-    //         console.log(algorithm);
-    //     }
-    // }
-    // console.log("lsfdj")
-    function handleOptions(){
-        // const option = handleOption
-    }
 
     return (
         <div className="container">
@@ -176,43 +171,45 @@ export default function Graph() {
             </AlgorithmContext.Provider> 
             
             <div>
-                <div className="grid">
+                <table className="grid">
                     {grid.map((row, rowIndex) => {
                         return (
-                            <div key={rowIndex}>
-                                {row.map((node, nodeIndex) => {
-                                    const {
-                                        isStart,
-                                        isFinish,
-                                        row,
-                                        col,
-                                        isWall,
-                                    } = node; 
-                                    return (
-                                        <Nodes
-                                            key={nodeIndex}
-                                            isStart={isStart}
-                                            isFinish={isFinish}
-                                            isWall={isWall}
-                                            mouseIsPressed={mouseIsPressed}
-                                            // startNodeChanging={startNodeChanging}
-                                            endNodeChanging={endNodeChanging}
-                                            onMouseDown={(row, col) =>
-                                                handleMouseDown(row, col)
-                                            }
-                                            onMouseEnter={(row, col) =>
-                                                handleMouseEnter(row, col)
-                                            }
-                                            onMouseUp={() => handleMouseUp()}
-                                            col={col}
-                                            row={row}
-                                        ></Nodes>
-                                    );
-                                })}
-                            </div>
+                            <tbody key={rowIndex}>
+                                <tr>
+                                    {row.map((node, nodeIndex) => {
+                                        const {
+                                            isStart,
+                                            isFinish,
+                                            row,
+                                            col,
+                                            isWall,
+                                        } = node; 
+                                        return (
+                                            <Nodes
+                                                key={nodeIndex}
+                                                isStart={isStart}
+                                                isFinish={isFinish}
+                                                isWall={isWall}
+                                                mouseIsPressed={mouseIsPressed}
+                                                // startNodeChanging={startNodeChanging}
+                                                endNodeChanging={endNodeChanging}
+                                                onMouseDown={(row, col) =>
+                                                    handleMouseDown(row, col)
+                                                }
+                                                onMouseEnter={(row, col) =>
+                                                    handleMouseEnter(row, col)
+                                                }
+                                                onMouseUp={() => handleMouseUp()}
+                                                col={col}
+                                                row={row}
+                                            ></Nodes>
+                                        );
+                                    })}
+                                </tr>
+                            </tbody>
                         );
                     })}
-                </div>
+                </table>
             </div>
         </div>
     ); 

@@ -18,19 +18,19 @@ export function DFS(grid, startNode, finishNode) {
         }
         const neighbors =  getUnvisitedNeighbor(currentNode, grid)
         console.log("🚀 ~ file: DFS.js:20 ~ DFS ~ neighbors", neighbors)
-        if(neighbors !== undefined){
+        if(neighbors){
             let neighbor =  neighbors
             neighbor= grid[neighbor.row][neighbor.col]
             // for (const neighbor of neighbors) {
-                if (neighbor.isWall) continue;
-                if ( !neighbor.isVisited) {
-                    stack.push(neighbor);
-                    visited.push(neighbor)
-                    v.push(neighbor)
-                    neighbor.isVisited = true;
-                }
-                if(!visited.includes(neighbor))visited.push(neighbor)
-                if(neighbor.previousNode === null) neighbor.previousNode= currentNode
+            if (neighbor.isWall) break;
+            if ( !neighbor.isVisited) {
+                stack.push(neighbor);
+                visited.push(neighbor)
+                v.push(neighbor)
+                neighbor.isVisited = true;
+            }
+            if(!visited.includes(neighbor))visited.push(neighbor)
+            if(neighbor.previousNode === null) neighbor.previousNode= currentNode
         }
         // }
     }
@@ -76,27 +76,51 @@ export function DFS(grid, startNode, finishNode) {
 function getUnvisitedNeighbor(node, grid){
     const neighbors = []
     const {col, row }= node 
-    if(row< grid.length-1) neighbors.push(grid[row+1][col])
     if(row > 0 ) neighbors.push(grid[row-1][col])
+    if(row< grid.length-1) neighbors.push(grid[row+1][col])
     if(col <grid[0].length) neighbors.push(grid[row][col+1])
     if(col> 0) neighbors.push(grid[row][col-1])
-    const unvisitedNeighbors =neighbors.filter((neighbors) => {
+    const nodeNeighbors =neighbors.filter((neighbors) => !neighbors.isWall)
+    const unvisitedNeighbors =nodeNeighbors.filter((neighbors) => {
         return !neighbors.isVisited 
     })
     console.log(neighbors.length)
     console.log("🚀 ~ file: DFS.js:49 ~ getUnvisitedNeighbor ~ neighbors", neighbors)
     // neighbors.filter((neighbor) => !neighbor.isVisited)
     return unvisitedNeighbors.shift()
-} 
-function getUnvisitedNeighbors(node, grid){
-    const neighbors = []
-    const {col, row }= node 
-    if(row< grid.length-1) neighbors.push(grid[row+1][col])
-    if(col> 0) neighbors.push(grid[row][col-1])
-    if(col <grid[0].length) neighbors.push(grid[row][col+1])
-    if(row > 0 ) neighbors.push(grid[row-1][col])
-    return neighbors.filter((neighbors) => !neighbors.isVisited)
 }
+// function getUnvisitedNeighbor(node, grid){
+//     const neighbors = []
+//     const {col, row }= node 
+//     if(row > 0 ) neighbors.push(grid[row-1][col])
+//     if(col> 0) neighbors.push(grid[row][col-1])
+//     if(row< grid.length-1) neighbors.push(grid[row+1][col])
+//     if(col <grid[0].length) neighbors.push(grid[row][col+1])
+//     const nodeNeighbors =neighbors.filter((neighbors) => !neighbors.isWall)
+//     const unvisitedNeighbors =nodeNeighbors.filter((neighbors) => {
+//         return !neighbors.isVisited 
+//     })
+//     console.log(neighbors.length)
+//     console.log("🚀 ~ file: DFS.js:49 ~ getUnvisitedNeighbor ~ neighbors", neighbors)
+//     // neighbors.filter((neighbor) => !neighbor.isVisited)
+//     return unvisitedNeighbors.shift()
+// }
+// function getUnvisitedNeighbor(node, grid){
+//     const neighbors = []
+//     const {col, row }= node 
+//     if(row< grid.length-1) neighbors.push(grid[row+1][col])
+//     if(row > 0 ) neighbors.push(grid[row-1][col])
+//     if(col <grid[0].length) neighbors.push(grid[row][col+1])
+//     if(col> 0) neighbors.push(grid[row][col-1])
+//     const nodeNeighbors =neighbors.filter((neighbors) => !neighbors.isWall)
+//     const unvisitedNeighbors =nodeNeighbors.filter((neighbors) => {
+//         return !neighbors.isVisited 
+//     })
+//     console.log(neighbors.length)
+//     console.log("🚀 ~ file: DFS.js:49 ~ getUnvisitedNeighbor ~ neighbors", neighbors)
+//     // neighbors.filter((neighbor) => !neighbor.isVisited)
+//     return unvisitedNeighbors.shift()
+// }
 
 export function getNodesInShortestPath(finishNode , startNode){ 
     let currentNode = finishNode 

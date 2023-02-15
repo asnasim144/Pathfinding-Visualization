@@ -44,7 +44,7 @@ export default function Nodes({
     // alert(isFinish)
 
     return (
-        <div
+        <td
             id={`node-${row}-${col}`}
             className={`node ${extraClassName}`}
             onMouseDown={() => onMouseDown(row, col)}
@@ -55,6 +55,6 @@ export default function Nodes({
             {/* {dummy} */}
             <Finished sss={isFinish} />
             <Started sss={isStart} />
-        </div>
+        </td>
     );
 }
