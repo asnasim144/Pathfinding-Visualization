@@ -84,19 +84,19 @@ body {
     /* background: red; */
 }
 .nav .buttons {
-    margin-left: 2rem;
+    /* margin-left: 2rem; */
     display: flex; 
     align-items: center;
     /* justify-content: space-between; */
-    gap: 20px;
+    /* gap: 20px; */
     color: white;
 }
 .nav .buttons .block {
-    margin-left: 2rem;
+    /* margin-left: 2rem; */
     display: flex; 
     align-items: center;
     /* justify-content: space-between; */
-    gap: 20px; 
+    /* gap: 20px;  */
 }
 .info {
     text-align: center;
@@ -369,6 +369,46 @@ body {
 }
 
 
+@media(max-width:400px){
+    h2{
+        text-align: center ;
+    }
+    .nav { 
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        /* height: 70px; */
+        padding-bottom: 20px;
+    }
+    .visualize{
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .info ul{
+        /* display: flex; */
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 13px;
+    }
+    .buttons{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-left: 0px;
+    }
+    .block{
+        /* display: flex; */
+        flex-direction: column;
+        /* justify-content: center; */
+        align-items: center;
+        /* gap: 5px; */
+        margin-top: 10px;
+    }
+}
 @media(width < 820px) and (width >= 400px){
     .nav {
         width: 100vw;
@@ -388,52 +428,23 @@ body {
     }
     .buttons .block{
         display: flex;
-        /* gap: 10px; */
+        gap: 10px;
         /* align-items: ; */
     }
     .buttons .block .r{
         margin-top: 10px;
     }
+    .info ul{ 
+        gap: 5px;
+    }
 }
-@media(max-width:400px){
-    h2{
-        text-align: center ;
+@media(width >= 820px){
+    .nav .buttons {
+        margin-left: 2rem;  
+        gap: 20px;
+
     }
-    .nav {
-        width: 100vw;
-        background-color: #34495e;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        /* height: 70px; */
-        padding-bottom: 20px;
-    }
-    .visualize{
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-    }
-    .info ul{
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        gap: 13px;
-    }
-    .buttons{
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        margin-left: 0px;
-    }
-    .block{
-        /* display: flex; */
-        flex-direction: column;
-        /* justify-content: center; */
-        align-items: center;
-        /* gap: 5px; */
-        margin-left: 0px;
+    .nav .buttons .block {
+        gap: 20px;
     }
 }

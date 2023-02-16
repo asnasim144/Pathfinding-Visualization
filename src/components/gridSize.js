@@ -3,8 +3,20 @@ export function getGridSize(){
     const windowWidth = window.innerWidth
     const windowHeight = window.innerHeight
     console.log("🚀 ~ file: gridSize.js:4 ~ getGridSize ~ window.windowHeight", window.innerHeight)
-    if(windowWidth <= 1920 ){
+    if(windowWidth <= 1920 && windowWidth >= 1600){
         gridSize.col = Math.floor((windowWidth-100)/ 25)-3
+    }
+    if(windowWidth <= 1600 && windowWidth >= 1000){
+        gridSize.col = Math.floor((windowWidth-100)/ 25)-1
+    }
+    if(windowWidth <= 1000 && windowWidth >= 600){
+        gridSize.col = Math.floor((windowWidth-75)/ 25)
+    }
+    if(windowWidth < 600){
+        gridSize.col = Math.floor((windowWidth-50)/ 25)
+    }
+    if(windowWidth < 350){
+        gridSize.col = Math.floor((windowWidth-20)/ 25)
     }
     if(windowHeight <=700){
         gridSize.row = Math.floor((windowHeight-200)/ 25)-4
@@ -13,12 +25,15 @@ export function getGridSize(){
         console.log("🚀 ~ file: gridSize.js:13 ~ getGridSize ~ windowHeight", windowHeight)
         gridSize.row = Math.floor((windowHeight-200)/ 25) -7
     }
-    if(gridSize.startNode.col > 20){
-        gridSize.startNode.col = 5
-        gridSize.endNode.col = gridSize.col-5
+    if(gridSize.col > 20 && gridSize.col < 40){
+        gridSize.startNode.col = 7
+        gridSize.endNode.col = gridSize.col-8
+    }else if(gridSize.col >= 40){
+        gridSize.startNode.col = 12
+        gridSize.endNode.col = gridSize.col-13
     }else{
-        gridSize.startNode.col = 3
-        gridSize.endNode.col = gridSize.col-3
+        gridSize.startNode.col = 1
+        gridSize.endNode.col = gridSize.col-2
     }
     // if(gridSize.startNode.row > 14){
         gridSize.startNode.row = Math.floor(gridSize.row/2)-1

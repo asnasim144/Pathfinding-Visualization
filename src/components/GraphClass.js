@@ -13,6 +13,8 @@ export const AlgorithmContext= createContext();
 export default function Graph() {
     // const { row, col, } = getGridSize()
     const gridSize = getGridSize()
+    const gridRowCount = gridSize.row
+    const gridColCount = gridSize.col
     console.log("🚀 ~ file: GraphClass.js:15 ~ Graph ~ gridSize", gridSize.row)
     const [grid, setGrid] = useState([]);
     const [setWall, setSetWall] = useState(false);
@@ -36,15 +38,15 @@ export default function Graph() {
                 previousNode: null,
             };
         };
-        for (let row = 0; row < gridSize.row; row++) {
+        for (let row = 0; row < gridRowCount; row++) {
             const currentRow = [];
-            for (let col = 0; col < gridSize.col; col++) {
+            for (let col = 0; col < gridColCount; col++) {
                 currentRow.push(createNode(col, row));
             }
             gridRow.push(currentRow);
         }
         return gridRow;
-    }, [endNode.col, endNode.row, gridSize.col, gridSize.row, startNode.col, startNode.row]);
+    }, [endNode.col, endNode.row, gridColCount, gridRowCount, startNode.col, startNode.row]);
     useEffect(() => {
         setGrid(gridMemo);
     }, [gridMemo]);
@@ -141,11 +143,11 @@ export default function Graph() {
         return newGrid;
     };
     const resetGrid = () => { 
-        for (let row = 0; row < 15; row++) {
-            for (let col = 0; col < 50; col++) {
+        for (let row = 0; row < gridRowCount; row++) {
+            for (let col = 0; col < gridColCount; col++) {
                 const node = grid[row][col];
-                node.distance= Infinity
                 node.isVisited= false 
+                node.distance= Infinity
                 node.previousNode= null
                 document
                     .getElementById(`node-${row}-${col}`)
