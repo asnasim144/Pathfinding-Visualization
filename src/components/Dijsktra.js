@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
-import { dijkstra, getNodesInShortestPathOrder } from "../FindPath";
-import { AlgorithmContext } from '../GraphClass';
+import { dijkstra, getNodesInShortestPathOrder } from "./algorithms/FindPath";
+import { AlgorithmContext } from './GraphClass';
 
 // const AlgorithmContext= React.createContext()
 

@@ -100,6 +100,7 @@ body {
 }
 .info {
     text-align: center;
+    display: block;
 }
 .info img {
     width: 15px;
@@ -141,6 +142,9 @@ body {
 }
 .info li:first-child {
     /* margin-top: -10px; */
+}
+.hidden{
+    display: none;
 }
 .grid {
     margin-top: 20px;
@@ -371,15 +375,16 @@ body {
 
 @media(max-width:400px){
     h2{
-        text-align: center ;
+        text-align: center;
+        margin: 1px;
     }
     .nav { 
-        display: flex;
+        /* display: flex; */
         flex-direction: column;
         justify-content: center;
         align-items: center;
         /* height: 70px; */
-        padding-bottom: 20px;
+        padding-bottom: 10px;
     }
     .visualize{
         display: flex;
@@ -406,7 +411,23 @@ body {
         /* justify-content: center; */
         align-items: center;
         /* gap: 5px; */
-        margin-top: 10px;
+        margin-top: 5px;
+    }
+    .block p{
+        margin-top: 5px;
+        margin-bottom: 7px;
+        
+    }
+    .hidden{
+        display: block;
+    }
+    .hidden svg{
+        width: 10px;
+        margin-left: 10px;
+        margin-top: 3px;
+    }
+    .rotate{
+        transform: rotate(90);
     }
 }
 @media(width < 820px) and (width >= 400px){

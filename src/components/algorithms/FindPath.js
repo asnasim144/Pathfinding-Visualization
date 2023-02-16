@@ -25,6 +25,7 @@ function sortNodesByDistance(unvisitedNodes) {
     unvisitedNodes.sort((nodeA, nodeB) => nodeA.distance - nodeB.distance);
 }
 
+// Update distance and set previous node
 function updateUnvisitedNeighbors(node, grid) {
     const unvisitedNeighbors = getUnvisitedNeighbors(node, grid);
     for (const neighbor of unvisitedNeighbors) {
@@ -33,6 +34,7 @@ function updateUnvisitedNeighbors(node, grid) {
     }
 }
 
+// Find the neighbors of current node
 function getUnvisitedNeighbors(node, grid) {
     const neighbors = [];
     const { col, row } = node;
@@ -61,6 +63,9 @@ export function getNodesInShortestPathOrder(finishNode) {
     while (currentNode !== null) {
         nodesInShortestPathOrder.unshift(currentNode);
         currentNode = currentNode.previousNode;
+    }
+    if(nodesInShortestPathOrder.length=== 1){
+        nodesInShortestPathOrder.pop()
     }
     return nodesInShortestPathOrder;
 }
