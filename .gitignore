@@ -2,6 +2,9 @@
 
 # dependencies
 node_modules/
+Graphss.js
+Buttons.js
+
 /.pnp
 .pnp.js
 

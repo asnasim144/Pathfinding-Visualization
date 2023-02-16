@@ -1,13 +1,25 @@
-import { DFS, getNodesInShortestPath } from "./algorithms/DFS";
-import { AlgorithmContext } from './GraphClass'
+/*
+This component visualizes the DFS algorithm
+*/
+
+
 import { useContext } from "react";
+import { DFS, getNodesInShortestPath } from "./algorithms/DFS";
+import { AlgorithmContext } from './Graph';
 
 
 import React from 'react';
 
-export default function BFSVisualize() {
+export default function DFSVisualize() {
     const contextValue = useContext(AlgorithmContext)
-
+    return (
+        <div>
+            <button onClick={() => visualizeBFS(contextValue.grid, contextValue.startNode, contextValue.endNode)} className="visualizeBtn">
+                Visualize DFS
+            </button>
+        </div>
+    )
+    
     function visualizeBFS(grid,startNode, endNode){
         contextValue.resetGrid();
         const visitedNodes= DFS(grid,startNode, endNode) 
@@ -30,11 +42,4 @@ export default function BFSVisualize() {
             i++
         }); 
     }
-    return (
-        <div>
-            <button onClick={() => visualizeBFS(contextValue.grid, contextValue.startNode, contextValue.endNode)} className="visualizeBtn">
-                Visualize DFS
-            </button>
-        </div>
-    )
 }

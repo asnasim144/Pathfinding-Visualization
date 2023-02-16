@@ -1,16 +1,13 @@
-// import DummyButton from "./components/DummyButton";
-// import Graph from "./components/Graph";
-import Graph from "./components/GraphClass"
+// Graph component added to the app component
 import "./asset/App.css";
+import Graph from "./components/Graph";
 
 
 
 function App() {
   return (
-    <div className="App">
-      {/* <Graph /> */}
-      <Graph></Graph>
-      {/* <DummyButton /> */}
+    <div className="App"> 
+      <Graph></Graph> 
     </div>
   );
 }

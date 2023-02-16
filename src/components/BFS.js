@@ -1,6 +1,11 @@
-import { BFS, getNodesInShortestPath } from "./algorithms/bfsAlgo";
-import { AlgorithmContext } from './GraphClass'
+/*
+This component visualizes the BFS algorithm
+*/
+
+
 import { useContext } from "react";
+import { BFS, getNodesInShortestPath } from "./algorithms/BFS";
+import { AlgorithmContext } from './Graph';
 
 
 import React from 'react';

@@ -1,6 +1,11 @@
+/*
+This is the smallest component of the graph. Here, nodes are created and designed according to their properties
+*/
+
+
 import React from "react";
-import Start from "./start.svg";
-import End from "./end.svg";
+import Start from "../asset/start.svg";
+import End from "../asset/end.svg";
 
 const Finished = ({ sss }) => {
     if (sss === true) {
@@ -30,8 +35,7 @@ export default function Nodes({
     onMouseUp,
     row,
 }) {
-    // const icon = isFinish ? End : isStart ? Start : false;
-    // alert(isFinish)
+    // Select class name according to its property
     const extraClassName = isFinish
         ? "node-finish"
         : isStart
@@ -39,9 +43,7 @@ export default function Nodes({
         : isWall
         ? "node-wall"
         : "";
-    // const col= color? 'color':'';
-
-    // alert(isFinish)
+        
 
     return (
         <td
@@ -50,9 +52,7 @@ export default function Nodes({
             onMouseDown={() => onMouseDown(row, col)}
             onMouseEnter={() => onMouseEnter(row, col)}
             onMouseUp={() => onMouseUp()}
-        >
-            {/* <HandleIcon isStart={isStart} isFinish={isFinish} /> */}
-            {/* {dummy} */}
+        > 
             <Finished sss={isFinish} />
             <Started sss={isStart} />
         </td>

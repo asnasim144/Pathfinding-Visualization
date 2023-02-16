@@ -1,20 +1,31 @@
-// import React, { useMemo } from "react";
+/* 
+This component is responsible for creating the graph and setting properties of its cells. The algorithms will be displayed on this graph. Additional functionality, such as creating walls and changing the start and end nodes, is also included.
+*/ 
+import { createContext, useEffect, useMemo, useState } from "react";
 import Nodes from "./Nodes";
-import { useState, useEffect, useMemo } from "react";
-import { dijkstra, getNodesInShortestPathOrder } from "./FindPath";
-import { BFS, getNodesInShortestPath } from "./bfsAlgo";
-import Find from "./SimplePathFinding";
+import { getGridSize } from "./gridSize";
 import Nav from "./Nav";
 
+export const AlgorithmContext= createContext();
+
 export default function Graph() {
+    // This is used to obtain the grid size and the positions of the start and end nodes from the gridSize page 
+    const gridSize = getGridSize()
+    const gridRowCount = gridSize.row
+    const gridColCount = gridSize.col
+
     const [grid, setGrid] = useState([]);
     const [setWall, setSetWall] = useState(false);
     const [startNodeChanging, setStartNodeChanging] = useState(false);
     const [endNodeChanging, setEndNodeChanging] = useState(false);
-    const [startNode, setStartNode] = useState({ row: 7, col: 5 });
-    const [endNode, setEndNode] = useState({ row: 7, col: 44 });
+    // Start node position
+    const [startNode, setStartNode] = useState({ row: gridSize.startNode.row, col: gridSize.startNode.col });
+
+    // End node position
+    const [endNode, setEndNode] = useState({ row: gridSize.endNode.row, col: gridSize.endNode.col });
     const [mouseIsPressed, setMouseIsPressed] = useState(false);
 
+    // This grid is the main graph. And its property which will help to visualize algorithm
     const gridMemo = useMemo(() => {
         const gridRow = [];
         const createNode = (col, row) => {
@@ -29,36 +40,34 @@ export default function Graph() {
                 previousNode: null,
             };
         };
-        for (let row = 0; row < 15; row++) {
+        for (let row = 0; row < gridRowCount; row++) {
             const currentRow = [];
-            for (let col = 0; col < 50; col++) {
+            for (let col = 0; col < gridColCount; col++) {
                 currentRow.push(createNode(col, row));
             }
             gridRow.push(currentRow);
         }
         return gridRow;
-    }, [endNode.col, endNode.row, startNode.col, startNode.row]);
+    }, [endNode.col, endNode.row, gridColCount, gridRowCount, startNode.col, startNode.row]);
     useEffect(() => {
         setGrid(gridMemo);
     }, [gridMemo]);
-    // console.log("grid", grid);
 
+    // Enable and disable the ability to create walls.
     const isWallCreatable = () => {
         if (setWall) setSetWall(false);
-        else setSetWall(true);
-        // alert(setWall);
+        else setSetWall(true); 
     };
 
+    // Handle mouse click and press events for creating walls and changing the start and end nodes
     const handleMouseDown = (row, col) => {
         setMouseIsPressed(true);
-        if (row === startNode.row && col === startNode.col) {
-            // alert("start Node");
+        if (row === startNode.row && col === startNode.col) { 
             setTimeout(() => {
                 setStartNodeChanging(true);
             }, 60);
         }
-        if (row === endNode.row && col === endNode.col) {
-            // alert("start Node");
+        if (row === endNode.row && col === endNode.col) { 
             setTimeout(() => {
                 setEndNodeChanging(true);
             }, 60);
@@ -75,7 +84,6 @@ export default function Graph() {
         const newGrid = getNewGridWithWallToggles(grid, row, col);
         setGrid(newGrid);
     };
-
     const handleMouseUp = () => {
         setTimeout(() => {
             setMouseIsPressed(false);
@@ -83,19 +91,24 @@ export default function Graph() {
             setEndNodeChanging(false);
         }, 60);
     };
+
+    // Change start node position
     const changeStartNode = (row, col) => {
         if (!startNodeChanging) return;
-        const newGrid = getNewGridWithChangeStartNodeToggles(row, col);
-        // const newGrid = getNewGridWithChangeStartNodeToggles(grid, row, col);
+        const newGrid = getNewGridWithChangeStartNodeToggles(row, col); 
         setGrid(newGrid);
     };
+
+    // Change end node position
     const changeEndNode = (row, col) => {
         if (!endNodeChanging) return;
         const newGrid = getNewGridWithChangeEndNodeToggles(row, col); 
         setGrid(newGrid);
     };
 
+    // Toggle wall
     const getNewGridWithWallToggles = (grid, row, col) => {
+        if(grid[row][col].isStart || grid[row][col].isFinish) return grid
         const newGrid = grid.slice();
         const node = newGrid[row][col];
         const newNode = {
@@ -105,10 +118,11 @@ export default function Graph() {
         newGrid[row][col] = newNode;
         return newGrid;
     };
+
+    // Change start node
     const getNewGridWithChangeStartNodeToggles = (row, col) => {
         const newGrid = grid.slice();
-        const node = newGrid[row][col];
-        changeVisualizeDijkstra(row, col, endNode);
+        const node = newGrid[row][col]; 
         const newNode = {
             ...node,
             isStart: true,
@@ -121,10 +135,11 @@ export default function Graph() {
         newGrid[row][col] = newNode;
         return newGrid;
     };
+
+    // Change start node
     const getNewGridWithChangeEndNodeToggles = (row, col) => {
         const newGrid = grid.slice();
-        const node = newGrid[row][col];
-        // changeVisualizeDijkstra(row,col, endNode);
+        const node = newGrid[row][col]; 
         const newNode = {
             ...node,
             isFinish: true,
@@ -138,85 +153,13 @@ export default function Graph() {
         return newGrid;
     };
 
-    const animateDijkstra = (visitedNodesInOrder, nodesInShortestPathOrder) => {
-        for (let i = 0; i <= visitedNodesInOrder.length; i++) {
-            if (i === visitedNodesInOrder.length) {
-                setTimeout(() => {
-                    animateShortestPath(nodesInShortestPathOrder);
-                }, 10 * i);
-                return;
-            }
-            setTimeout(() => {
-                const node = visitedNodesInOrder[i];
-                document.getElementById(
-                    `node-${node.row}-${node.col}`
-                ).className = "node node-visited";
-            }, 10 * i);
-        }
-    };
-
-    const animateShortestPath = (nodesInShortestPathOrder) => {
-        for (let i = 0; i < nodesInShortestPathOrder.length; i++) {
-            setTimeout(() => {
-                const node = nodesInShortestPathOrder[i];
-                document.getElementById(
-                    `node-${node.row}-${node.col}`
-                ).className = "node node-shortest-path";
-            }, 50 * i);
-        }
-    };
-    const changeDijkstra = (visitedNodesInOrder, nodesInShortestPathOrder) => {
-        for (let i = 0; i <= visitedNodesInOrder.length; i++) {
-            if (i === visitedNodesInOrder.length) {
-                // setTimeout(() => {
-                changeShortestPath(nodesInShortestPathOrder);
-                // }, 10 * i);
-                return;
-            }
-            // setTimeout(() => {
-            const node = visitedNodesInOrder[i];
-            document.getElementById(`node-${node.row}-${node.col}`).className =
-                "node node-visited";
-            // }, 10 * i);
-        }
-    };
-
-    const changeShortestPath = (nodesInShortestPathOrder) => {
-        for (let i = 0; i < nodesInShortestPathOrder.length; i++) {
-            // setTimeout(() => {
-            const node = nodesInShortestPathOrder[i];
-            document.getElementById(`node-${node.row}-${node.col}`).className =
-                "node node-shortest-path";
-            // }, 50 * i);
-        }
-    };
-
-    const changeVisualizeDijkstra = (row, col, end) => {
-        resetGrid();
-        const startNode = grid[row][col];
-        const finishNode = grid[end.row][end.col];
-        const visitedNodesInOrder = dijkstra(grid, startNode, finishNode);
-        const nodesInShortestPathOrder =
-            getNodesInShortestPathOrder(finishNode);
-        changeDijkstra(visitedNodesInOrder, nodesInShortestPathOrder);
-    };
-    const visualizeDijkstra = (start, end) => {
-        resetGrid();
-        const startNode = grid[start.row][start.col];
-        const finishNode = grid[end.row][end.col];
-        const visitedNodesInOrder = dijkstra(grid, startNode, finishNode);
-        const nodesInShortestPathOrder =
-            getNodesInShortestPathOrder(finishNode);
-        animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder);
-    };
-    const resetGrid = () => {
-        // const newGrid = gridd.slice();
-        // console.log("log");
-        for (let row = 0; row < 15; row++) {
-            for (let col = 0; col < 50; col++) {
+    // Clear visited path
+    const resetGrid = () => { 
+        for (let row = 0; row < gridRowCount; row++) {
+            for (let col = 0; col < gridColCount; col++) {
                 const node = grid[row][col];
-                node.distance= Infinity
                 node.isVisited= false 
+                node.distance= Infinity
                 node.previousNode= null
                 document
                     .getElementById(`node-${row}-${col}`)
@@ -226,103 +169,63 @@ export default function Graph() {
                     .classList.remove("node-shortest-path");
             }
         }
-        // setGrid(gridMemo);
-    };
-    // console.log("lsfdj")
-    
+    }; 
 
     return (
         <div className="container">
-            {/* <Find /> */}
-            <Nav
-                visualizeDijkstra={(startNode, endNode) =>
-                    visualizeDijkstra(startNode, endNode)
-                }
-                startNode={startNode}
-                endNode={endNode}
-                isWallCreatable={isWallCreatable}
-                resetGrid={resetGrid}
-            ></Nav>
-            <button onClick={() => visualizeBFS(grid,startNode, endNode)}>
-                    Visualize BFS Algorithm
-                </button>
+            {/* Providing velues to its child */}
+            <AlgorithmContext.Provider value={{grid,startNode, endNode, resetGrid , isWallCreatable, }}>
+                <Nav 
+                    startNode={startNode}
+                    endNode={endNode}
+                    isWallCreatable={isWallCreatable}
+                    resetGrid={resetGrid}
+                ></Nav>
+            </AlgorithmContext.Provider> 
+            
             <div>
-                <div className="grid">
+                {/* Createing the main graph */}
+                <table className="grid">
                     {grid.map((row, rowIndex) => {
                         return (
-                            <div key={rowIndex}>
-                                {row.map((node, nodeIndex) => {
-                                    const {
-                                        isStart,
-                                        isFinish,
-                                        row,
-                                        col,
-                                        isWall,
-                                    } = node;
-                                    // console.log(
-                                    //     "s",
-                                    //     isStart,
-                                    //     "f",
-                                    //     isFinish,
-                                    //     startNodeChanging,
-                                    //     mouseIsPressed
-                                    // );
-                                    // console.log(node);
-                                    return (
-                                        <Nodes
-                                            key={nodeIndex}
-                                            isStart={isStart}
-                                            isFinish={isFinish}
-                                            isWall={isWall}
-                                            mouseIsPressed={mouseIsPressed}
-                                            // startNodeChanging={startNodeChanging}
-                                            endNodeChanging={endNodeChanging}
-                                            onMouseDown={(row, col) =>
-                                                handleMouseDown(row, col)
-                                            }
-                                            onMouseEnter={(row, col) =>
-                                                handleMouseEnter(row, col)
-                                            }
-                                            onMouseUp={() => handleMouseUp()}
-                                            col={col}
-                                            row={row}
-                                        ></Nodes>
-                                    );
-                                })}
-                            </div>
+                            <tbody key={rowIndex}>
+                                <tr>
+                                    {row.map((node, nodeIndex) => {
+                                        const {
+                                            isStart,
+                                            isFinish,
+                                            row,
+                                            col,
+                                            isWall,
+                                        } = node; 
+                                        return (
+                                            <Nodes
+                                                key={nodeIndex}
+                                                isStart={isStart}
+                                                isFinish={isFinish}
+                                                isWall={isWall}
+                                                mouseIsPressed={mouseIsPressed}
+                                                // startNodeChanging={startNodeChanging}
+                                                endNodeChanging={endNodeChanging}
+                                                onMouseDown={(row, col) =>
+                                                    handleMouseDown(row, col)
+                                                }
+                                                onMouseEnter={(row, col) =>
+                                                    handleMouseEnter(row, col)
+                                                }
+                                                onMouseUp={() => handleMouseUp()}
+                                                col={col}
+                                                row={row}
+                                            ></Nodes>
+                                        );
+                                    })}
+                                </tr>
+                            </tbody>
                         );
                     })}
-                </div>
+                </table>
             </div>
         </div>
-    );
-    function visualizeBFS(grid,startNode, endNode){
-        resetGrid();
-        const visitedNodes= BFS(grid,startNode, endNode)
-        // console.log("vsdf")
-        // console.log(visitedNodes.length)
-        // console.log(visitedNodes)
-        let i=0
-        visitedNodes.map((item) => { 
-            // console.log(item)
-            setTimeout(() => {
-                document.getElementById(`node-${item.row}-${item.col}`).className = "node node-visited";
-                
-            }, i*10);
-            i++
-        })
-        const nodesInShortestpath = getNodesInShortestPath(grid[endNode.row][endNode.col], grid[startNode.row][startNode.col])
-        console.log("🚀 ~ file: Graph.js:315 ~ visualizeBFS ~ nodesInShortestpath", nodesInShortestpath)
-        nodesInShortestpath.map((item) => { 
-            // console.log(item)
-            setTimeout(() => {
-                document.getElementById(`node-${item.row}-${item.col}`).className = "node node-shortest-path";
-                
-            }, i*10);
-            i++
-        });
-        // console.log(visitedNodes[[]])
-        // for(let i=0; i< visitedNodes.length; i++){
-        // }
-    }
+    ); 
+    
 } 

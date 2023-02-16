@@ -1,9 +1,12 @@
-import React, { useState, useRef, useContext} from "react";
-// import Buttons from "./Buttons";
-import SelectAlgo from "./SelectAlgorithm";
+/*
+This is the top section of the website where the buttons and icons are located, along with their introductions
+*/
+
+
+import React, { useContext, useRef, useState } from "react";
+import { AlgorithmContext } from "./Graph";
 import Info from "./Info";
-// import Dijsktra from "./Dijsktra";
-import { AlgorithmContext } from "./GraphClass";
+import SelectAlgorithm from "./SelectAlgorithm";
 
 export default function Nav() { 
     const [rotationAngle, setRotationAngle] = useState(0);
@@ -17,17 +20,20 @@ export default function Nav() {
             <div className="nav"> 
                 <h2>Pathfinding Visualizer</h2>
                 <div className="buttons">
-                    <SelectAlgo ></SelectAlgo> 
+                    <SelectAlgorithm ></SelectAlgorithm> 
                     <div className="block">
+
+                        {/* Crear path and visited node  */}
                         <button onClick={contextValues.resetGrid} className='clear'>Clear</button>
-                        <p className="btn" onClick={handleCheckbox}>Change Wall</p>  
+
+                        {/* Toggle wall changeability */}
+                        <p className="btn" onClick={handleChangeWall}>Change Wall</p>  
                         <div className="button r" id="wallBtn">
                             <input type="checkbox"  ref={checkbox} onChange={contextValues.isWallCreatable} className="checkbox"/>
                             <div className="knobs"></div>
                             <div className="layer"></div>
                         </div> 
-                    </div>
-                    {/* <button onClick={isWallCreatable} className='addWallBtn'></button> */}
+                    </div> 
                 </div>
             </div>
             <div className="hidden" onClick={toggleInfo}>
@@ -38,17 +44,18 @@ export default function Nav() {
             </div>
         </div>
     ); 
-    function handleCheckbox() {
+    function handleChangeWall() {
         checkbox.current.checked = !checkbox.current.checked
         contextValues.isWallCreatable()
     }
+    // Toggle visibility of info section for small screen device
     function toggleInfo(){ 
         setRotationAngle(rotationAngle+180);
         const element = expand.current.style
         const rotateSvg = rotate.current.style
         rotateSvg.transform = `rotate(${rotationAngle}deg)`;
         rotateSvg.translation= "transform 1.5s ease-out";
-        console.log("🚀 ~ file: Nav.js:43 ~ showInfo ~ element", element)
+        // console.log("🚀 ~ file: Nav.js:43 ~ showInfo ~ element", element)
         if(element.display === 'block'){
             expand.current.style.display = 'none'
             return

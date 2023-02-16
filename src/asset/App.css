@@ -1,52 +1,6 @@
-/* 
-body{
-    margin: 0;
-    padding: 0;
-}
-.container{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-.grid{
-    display: flex;
-    display: grid;
-    margin-left: 100px;
-    width: 95vw;
-    min-width: 1000px;
-    max-width: 1600px;
-    grid-template-columns: auto auto auto;
-    flex-wrap: wrap;
-}
-.div{
-    height: 10px;
-    width: 10px;
-    background-color: rgb(171, 192, 192);
-    display: inline-block;
-    border: 1px solid black;
-}
-.top{
-    height: 100px;
-}
-.node{
-    width: 25px;
-    height: 25px;
-    outline: 1px solid gray;
-    display: inline-block;
-}
-
-.endNode{
-    background-color: rgb(245, 77, 77);
-}
-.startNode{
-    background-color: greenyellow;
-}
-.color{
-    background-color: aqua;
-} */
 body {
     margin: 0;
+    font-family: "Lato", Helvetica, Arial, sans-serif;
 }
 .container {
     display: flex;
@@ -373,10 +327,11 @@ body {
 }
 
 
-@media(max-width:400px){
+@media(max-width:410px){
     h2{
         text-align: center;
         margin: 1px;
+        margin-top: 1rem;
     }
     .nav { 
         /* display: flex; */
@@ -422,8 +377,8 @@ body {
         display: block;
     }
     .hidden svg{
-        width: 10px;
-        margin-left: 10px;
+        width: 20px;
+        margin-left: 20px;
         margin-top: 3px;
     }
     .rotate{

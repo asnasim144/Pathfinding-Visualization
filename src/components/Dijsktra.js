@@ -1,13 +1,15 @@
-import React, { useContext } from 'react';
-import { dijkstra, getNodesInShortestPathOrder } from "./algorithms/FindPath";
-import { AlgorithmContext } from './GraphClass';
+/*
+This component visualizes the Dijkstra algorithm
+*/
 
-// const AlgorithmContext= React.createContext()
+
+import React, { useContext } from 'react';
+import { dijkstra, getNodesInShortestPathOrder } from "./algorithms/dikjstra";
+import { AlgorithmContext } from './Graph';
+
 
 export default function Dijsktra() {
-
-    const contextValue= useContext(AlgorithmContext)
-    // console.log(contextValue, 'context')
+    const contextValue= useContext(AlgorithmContext) 
 
     const animateDijkstra = (visitedNodesInOrder, nodesInShortestPathOrder) => {
         for (let i = 0; i <= visitedNodesInOrder.length; i++) {
@@ -36,6 +38,8 @@ export default function Dijsktra() {
             }, 50 * i);
         }
     };
+
+    // Unfinished feature where
     const changeDijkstra = (visitedNodesInOrder, nodesInShortestPathOrder) => {
         for (let i = 0; i <= visitedNodesInOrder.length; i++) {
             if (i === visitedNodesInOrder.length) {
@@ -51,7 +55,6 @@ export default function Dijsktra() {
             // }, 10 * i);
         }
     };
-
     const changeShortestPath = (nodesInShortestPathOrder) => {
         for (let i = 0; i < nodesInShortestPathOrder.length; i++) {
             // setTimeout(() => {
@@ -61,7 +64,6 @@ export default function Dijsktra() {
             // }, 50 * i);
         }
     };
-
     const changeVisualizeDijkstra = (row, col, end) => {
         contextValue.resetGrid();
         const startNode = contextValue.grid[row][col];
@@ -71,6 +73,8 @@ export default function Dijsktra() {
             getNodesInShortestPathOrder(finishNode);
         changeDijkstra(visitedNodesInOrder, nodesInShortestPathOrder);
     };
+
+    // Self explanatory
     const visualizeDijkstra = (start, end) => {
         contextValue.resetGrid();
         const startNode = contextValue.grid[start.row][start.col];

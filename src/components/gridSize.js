@@ -1,3 +1,8 @@
+/*
+In this page the row and column of the main graph is dynamically set based on the screen size  
+*/
+
+
 export function getGridSize(){
     const gridSize = { row: 15, col: 50, startNode: { row: 7, col: 5}, endNode: { row: 7, col: 44}}
     const windowWidth = window.innerWidth
@@ -16,13 +21,12 @@ export function getGridSize(){
         gridSize.col = Math.floor((windowWidth-50)/ 25)
     }
     if(windowWidth < 350){
-        gridSize.col = Math.floor((windowWidth-20)/ 25)
+        gridSize.col = Math.floor((windowWidth-26)/ 25)
     }
     if(windowHeight <=700){
         gridSize.row = Math.floor((windowHeight-200)/ 25)-4
     }
     if(windowHeight <= 1100 && windowHeight >700){
-        // console.log("🚀 ~ file: gridSize.js:13 ~ getGridSize ~ windowHeight", windowHeight)
         gridSize.row = Math.floor((windowHeight-200)/ 25) -7
     }
     if(gridSize.col > 20 && gridSize.col < 40){
@@ -35,16 +39,7 @@ export function getGridSize(){
         gridSize.startNode.col = 1
         gridSize.endNode.col = gridSize.col-2
     }
-    // if(gridSize.startNode.row > 14){
-        gridSize.startNode.row = Math.floor(gridSize.row/2)-1
-        gridSize.endNode.row = Math.floor(gridSize.row/2)-1
-    //     gridSize.endNode.row = 7
-    // }else{
-    //     gridSize.startNode.row = 3
-    //     gridSize.endNode.row = 3
-    // } 
-
-    // console.log(gridSize.col,'gridSize')
-    // console.log(gridSize.row,'row')
+    gridSize.startNode.row = Math.floor(gridSize.row/2)-1
+    gridSize.endNode.row = Math.floor(gridSize.row/2)-1
     return gridSize
 }

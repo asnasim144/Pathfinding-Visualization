@@ -1,3 +1,8 @@
+/*
+This component allows the user to select an algorithm and visualize its execution.
+*/
+
+
 import React, { useState } from 'react';
 import BFSVisualize from './BFS';
 import DFSVisualize from './DFS';
@@ -10,6 +15,8 @@ export default function SelectAlgo() {
     const [buttonName, setButtonName] = useState('Visualize')
     return (
         <Algorithm.Provider value={algorithm}>
+
+            {/* Select an algorithm  */}
             <div className='btn visualize'>
                 <select id='algo' onChange={(e)=>handleOption(e)}>
                     <option name='none' value='none'>
@@ -25,6 +32,8 @@ export default function SelectAlgo() {
                         DFS
                     </option>
                 </select> 
+
+                {/* Visualize button  */}
                 <div className='algo-btn'>
                     {
                         algorithm === 'dijkstra' ?

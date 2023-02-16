@@ -1,4 +1,8 @@
+/*
+This component visualizes the BFS algorithm
+*/
 
+// Array of visited node in order
 export function BFS(grid, startNode, finishNode) { 
     // console.log("🚀 ~ file: bfsAlgo.js:3 ~ BFS ~ grid", grid)
     const queue= []
@@ -6,11 +10,17 @@ export function BFS(grid, startNode, finishNode) {
     const visited = []
     queue.push(grid[startNode.row][startNode.col]) 
     visited.push(grid[startNode.row][startNode.col])
+
+    // Untill the queue is empty
     while(queue.length>0){ 
         console.log(queue.length)
         let node= queue[0]
         queue.shift() 
+
+        // Get the neighbors of the current node
         neighbors = getUnvisitedNeighbors(node, grid) 
+        
+        // Push them to the visited array if it's available
         for(let neighbor of neighbors){ 
             if(!visited.includes(neighbor))visited.push(neighbor)
             console.log("🚀 ~ file: bfsAlgo.js:16 ~ BFS ~ neighbor", neighbor)
@@ -29,6 +39,8 @@ export function BFS(grid, startNode, finishNode) {
 
 
 }
+
+// Find the neighbors of current node
 function getUnvisitedNeighbors(node, grid){
     const neighbors = []
     const {col, row }= node 
@@ -44,9 +56,9 @@ function getUnvisitedNeighbors(node, grid){
         return !neighbors.isVisited
     })
     return unvisitedNeighbors
-    // return neighbors.filter((neighbors) => !neighbors.isVisited)
 }
 
+// Backtracks from the finishNode to find the shortest path. 
 export function getNodesInShortestPath(finishNode , startNode){ 
     let currentNode = finishNode 
     let nodesInShortestPath= [] 
