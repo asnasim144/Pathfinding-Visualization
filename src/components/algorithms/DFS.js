@@ -37,42 +37,8 @@ export function DFS(grid, startNode, finishNode) {
     console.log("🚀 ~ file: DFS.js:9 ~ DFS ~ visited", visited)
     return v;
 
-
-    // const stack= []
-    // // let neighbors = [] 
-    // let neighbor = {}
-    // const visited = []
-    // stack.push(grid[startNode.row][startNode.col])
-    // visited.push(grid[startNode.row][startNode.col]) 
-    // while(stack.length>0){ 
-    //     console.log("🚀 ~ file: DFS.js:10 ~ BFS ~ stack.length", stack.length)
-    //     // console.log("🚀 ~ file: DFS.js:10 ~ BFS ~ stack", stack)
-    //     let node = stack[stack.length-1]
-    //     console.log("🚀 ~ file: DFS.js:13 ~ BFS ~ node", node)
-    //     neighbor = getUnvisitedNeighbor(node, grid)
-    //     // console.log("🚀 ~ file: DFS.js:14 ~ BFS ~ neighbor", neighbor)
-    //     if(neighbor  === undefined || neighbor === ''){
-    //         stack.pop()
-    //         continue
-    //     }
-    //     if(neighbor ===  finishNode){
-    //         visited.push(finishNode)
-    //         return visited
-    //     } 
-    //     // if(neighbor.isWall) continue
-    //     if(!visited.includes(neighbor)) {
-    //         visited.push(neighbor)
-    //         neighbor.isVisited = true
-    //         stack.push(neighbor)
-    //     }
-    //     if(neighbor.previousNode === null) neighbor.previousNode= node
-    //     else  stack.pop()
-
-    // } 
-    // return visited
-
-
 }
+
 function getUnvisitedNeighbor(node, grid){
     const neighbors = []
     const {col, row }= node 
@@ -80,47 +46,18 @@ function getUnvisitedNeighbor(node, grid){
     if(row< grid.length-1) neighbors.push(grid[row+1][col])
     if(col <grid[0].length) neighbors.push(grid[row][col+1])
     if(col> 0) neighbors.push(grid[row][col-1])
-    const nodeNeighbors =neighbors.filter((neighbors) => !neighbors.isWall)
-    const unvisitedNeighbors =nodeNeighbors.filter((neighbors) => {
+    let unvisitedNeighbors =neighbors.filter((neighbors) => {
+        return neighbors !== undefined 
+    })
+    unvisitedNeighbors =unvisitedNeighbors.filter((neighbors) => !neighbors.isWall)
+    unvisitedNeighbors =unvisitedNeighbors.filter((neighbors) => {
         return !neighbors.isVisited 
     })
     console.log(neighbors.length)
     console.log("🚀 ~ file: DFS.js:49 ~ getUnvisitedNeighbor ~ neighbors", neighbors)
     // neighbors.filter((neighbor) => !neighbor.isVisited)
     return unvisitedNeighbors.shift()
-}
-// function getUnvisitedNeighbor(node, grid){
-//     const neighbors = []
-//     const {col, row }= node 
-//     if(row > 0 ) neighbors.push(grid[row-1][col])
-//     if(col> 0) neighbors.push(grid[row][col-1])
-//     if(row< grid.length-1) neighbors.push(grid[row+1][col])
-//     if(col <grid[0].length) neighbors.push(grid[row][col+1])
-//     const nodeNeighbors =neighbors.filter((neighbors) => !neighbors.isWall)
-//     const unvisitedNeighbors =nodeNeighbors.filter((neighbors) => {
-//         return !neighbors.isVisited 
-//     })
-//     console.log(neighbors.length)
-//     console.log("🚀 ~ file: DFS.js:49 ~ getUnvisitedNeighbor ~ neighbors", neighbors)
-//     // neighbors.filter((neighbor) => !neighbor.isVisited)
-//     return unvisitedNeighbors.shift()
-// }
-// function getUnvisitedNeighbor(node, grid){
-//     const neighbors = []
-//     const {col, row }= node 
-//     if(row< grid.length-1) neighbors.push(grid[row+1][col])
-//     if(row > 0 ) neighbors.push(grid[row-1][col])
-//     if(col <grid[0].length) neighbors.push(grid[row][col+1])
-//     if(col> 0) neighbors.push(grid[row][col-1])
-//     const nodeNeighbors =neighbors.filter((neighbors) => !neighbors.isWall)
-//     const unvisitedNeighbors =nodeNeighbors.filter((neighbors) => {
-//         return !neighbors.isVisited 
-//     })
-//     console.log(neighbors.length)
-//     console.log("🚀 ~ file: DFS.js:49 ~ getUnvisitedNeighbor ~ neighbors", neighbors)
-//     // neighbors.filter((neighbor) => !neighbor.isVisited)
-//     return unvisitedNeighbors.shift()
-// }
+} 
 
 export function getNodesInShortestPath(finishNode , startNode){ 
     let currentNode = finishNode 

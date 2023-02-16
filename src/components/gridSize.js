@@ -2,7 +2,7 @@ export function getGridSize(){
     const gridSize = { row: 15, col: 50, startNode: { row: 7, col: 5}, endNode: { row: 7, col: 44}}
     const windowWidth = window.innerWidth
     const windowHeight = window.innerHeight
-    console.log("🚀 ~ file: gridSize.js:4 ~ getGridSize ~ window.windowHeight", window.innerHeight)
+    // console.log("🚀 ~ file: gridSize.js:4 ~ getGridSize ~ window.windowHeight", window.innerHeight)
     if(windowWidth <= 1920 && windowWidth >= 1600){
         gridSize.col = Math.floor((windowWidth-100)/ 25)-3
     }
@@ -22,7 +22,7 @@ export function getGridSize(){
         gridSize.row = Math.floor((windowHeight-200)/ 25)-4
     }
     if(windowHeight <= 1100 && windowHeight >700){
-        console.log("🚀 ~ file: gridSize.js:13 ~ getGridSize ~ windowHeight", windowHeight)
+        // console.log("🚀 ~ file: gridSize.js:13 ~ getGridSize ~ windowHeight", windowHeight)
         gridSize.row = Math.floor((windowHeight-200)/ 25) -7
     }
     if(gridSize.col > 20 && gridSize.col < 40){
@@ -44,7 +44,7 @@ export function getGridSize(){
     //     gridSize.endNode.row = 3
     // } 
 
-    console.log(gridSize.col,'gridSize')
-    console.log(gridSize.row,'row')
+    // console.log(gridSize.col,'gridSize')
+    // console.log(gridSize.row,'row')
     return gridSize
 }

@@ -15,7 +15,7 @@ export default function Graph() {
     const gridSize = getGridSize()
     const gridRowCount = gridSize.row
     const gridColCount = gridSize.col
-    console.log("🚀 ~ file: GraphClass.js:15 ~ Graph ~ gridSize", gridSize.row)
+    // console.log("🚀 ~ file: GraphClass.js:15 ~ Graph ~ gridSize", gridSize.row)
     const [grid, setGrid] = useState([]);
     const [setWall, setSetWall] = useState(false);
     const [startNodeChanging, setStartNodeChanging] = useState(false);
@@ -158,7 +158,8 @@ export default function Graph() {
             }
         }
         // setGrid(gridMemo);
-    };
+    }; 
+    // console.log("🚀 ~ file: GraphClass.js:163 ~ Graph ~ grid", grid)
 
     return (
         <div className="container">
@@ -215,4 +216,5 @@ export default function Graph() {
             </div>
         </div>
     ); 
+    
 } 
