@@ -21,7 +21,7 @@ export default function DFSVisualize() {
     )
     
     function visualizeBFS(grid,startNode, endNode){
-        contextValue.resetGrid();
+        contextValue.clearPath();
         const visitedNodes= DFS(grid,startNode, endNode) 
         let i=0
         visitedNodes.map((item) => { 

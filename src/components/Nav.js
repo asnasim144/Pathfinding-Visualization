@@ -24,7 +24,8 @@ export default function Nav() {
                     <div className="block">
 
                         {/* Crear path and visited node  */}
-                        <button onClick={contextValues.resetGrid} className='clear'>Clear</button>
+                        <button onClick={contextValues.clearPath} className='clear'>Clear Path</button>
+                        <button onClick={clearWall} className='clear'>Clear Wall</button>
 
                         {/* Toggle wall changeability */}
                         <p className="btn" onClick={handleChangeWall}>Change Wall</p>  
@@ -48,6 +49,7 @@ export default function Nav() {
         checkbox.current.checked = !checkbox.current.checked
         contextValues.isWallCreatable()
     }
+
     // Toggle visibility of info section for small screen device
     function toggleInfo(){ 
         setRotationAngle(rotationAngle+180);
@@ -61,5 +63,19 @@ export default function Nav() {
             return
         } 
         element.display = 'block'
+    }
+
+    // Remove all placed Wall
+    function clearWall() {
+        for (let row = 0; row < contextValues.grid.length; row++) {
+            for (let col = 0; col < contextValues.grid[0].length; col++) {
+                const node = contextValues.grid[row][col];
+                node.isWall = false
+                document
+                    .getElementById(`node-${row}-${col}`)
+                    .classList.remove("node-wall");
+            }
+        }
+        
     }
 }

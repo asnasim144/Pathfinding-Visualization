@@ -14,7 +14,7 @@ export default function BFSVisualize() {
     const contextValue = useContext(AlgorithmContext)
 
     function visualizeBFS(grid,startNode, endNode){
-        contextValue.resetGrid();
+        contextValue.clearPath();
         const visitedNodes= BFS(grid,startNode, endNode) 
         let i=0
         visitedNodes.map((item) => { 

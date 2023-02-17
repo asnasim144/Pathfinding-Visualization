@@ -154,7 +154,7 @@ export default function Graph() {
     };
 
     // Clear visited path
-    const resetGrid = () => { 
+    const clearPath = () => { 
         for (let row = 0; row < gridRowCount; row++) {
             for (let col = 0; col < gridColCount; col++) {
                 const node = grid[row][col];
@@ -174,12 +174,12 @@ export default function Graph() {
     return (
         <div className="container">
             {/* Providing velues to its child */}
-            <AlgorithmContext.Provider value={{grid,startNode, endNode, resetGrid , isWallCreatable, }}>
+            <AlgorithmContext.Provider value={{grid,startNode, endNode, clearPath , isWallCreatable, }}>
                 <Nav 
                     startNode={startNode}
                     endNode={endNode}
                     isWallCreatable={isWallCreatable}
-                    resetGrid={resetGrid}
+                    clearPath={clearPath}
                 ></Nav>
             </AlgorithmContext.Provider> 
             

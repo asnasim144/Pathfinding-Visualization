@@ -65,7 +65,7 @@ export default function Dijsktra() {
         }
     };
     const changeVisualizeDijkstra = (row, col, end) => {
-        contextValue.resetGrid();
+        contextValue.clearPath();
         const startNode = contextValue.grid[row][col];
         const finishNode = contextValue.grid[end.row][end.col];
         const visitedNodesInOrder = dijkstra(contextValue.grid, startNode, finishNode);
@@ -76,7 +76,7 @@ export default function Dijsktra() {
 
     // Self explanatory
     const visualizeDijkstra = (start, end) => {
-        contextValue.resetGrid();
+        contextValue.clearPath();
         const startNode = contextValue.grid[start.row][start.col];
         const finishNode = contextValue.grid[end.row][end.col];
         const visitedNodesInOrder = dijkstra(contextValue.grid, startNode, finishNode);

@@ -4,6 +4,7 @@
 node_modules/
 Graphss.js
 Buttons.js
+Elements.js
 
 /.pnp
 .pnp.js
