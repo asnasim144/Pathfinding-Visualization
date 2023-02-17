@@ -3,10 +3,17 @@
 Pathfinding or pathing is the plotting, by a computer application, of the shortest route between two points.
 ## What is this project?
 This project is based on React. In this project how a pathfinding algorithm work or how an algorithm finds the shortest path between two point is visualized by using an web application.
-### For now I've emplemented only three algorithm which is Dijkstra, Breath First Search, Death First Search. 
+### For now I've implemented only three algorithm which is Dijkstra, Breath First Search, Death First Search. 
 
 # Visit website
 ### https://asnasim144.github.io/dream/
+
+## What can u do in this website
+  
+  1. You can visualize any of the these algorithm
+  2. You can change the position of the start and end node
+  3. You can create and remove wall
+  4. Please visite and see what can be done
 
 # How to use this app
   To use this app, follow these steps:
