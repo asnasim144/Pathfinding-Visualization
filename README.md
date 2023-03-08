@@ -3,7 +3,7 @@
 ## Overview
 This project is built with React to visualize how a pathfinding algorithm works to find the shortest route between two points. Pathfinding, also known as pathing, is the process of finding the shortest route between two points using a computer algorithm.
 
-Currently, the project includes the implementation of three algorithms: Dijkstra, Breadth First Search, and Depth First Search. Visit the [project website](https://asnasim144.github.io/dream/) to see it in action.
+Currently, the project includes the implementation of three algorithms: Dijkstra, Breadth First Search, and Depth First Search. Visit the [project website](https://asnasim144.github.io/Pathfinding-Visualization/) to see it in action.
 
 ## Features
 With this web application, you can:
